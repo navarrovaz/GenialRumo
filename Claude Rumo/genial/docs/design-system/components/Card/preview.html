@@ -1,0 +1,16 @@
+<!-- @dsCard group="Exibição" height=280 subtitle="Contêiner com cabeçalho, corpo e rodapé" -->
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><link rel="stylesheet" href="../../tokens.css"><link rel="stylesheet" href="../bundle.css"><title>Card</title>
+<style>html,body{margin:0;background:var(--bg-page)} .pv{padding:24px} </style></head>
+<body>
+<div class="gn pv" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px">
+  <section class="gn-card">
+    <header class="gn-card__header"><div><h2 class="gn-card__title">Resumo do mês</h2><p class="gn-card__subtitle">Outubro de 2026</p></div><button class="gn-btn gn-btn--ghost gn-btn--sm" type="button">Ver detalhes</button></header>
+    <div class="gn-card__body"><dl class="gn-row" style="gap:28px;margin:0"><div class="gn-readout"><dt>Esperadas</dt><dd class="gn-num">168:00</dd></div><div class="gn-readout"><dt>Lançadas</dt><dd class="gn-num">84:36</dd></div><div class="gn-readout"><dt>Atestado</dt><dd class="gn-num">00:00</dd></div></dl></div>
+    <footer class="gn-card__footer"><button class="gn-btn gn-btn--secondary gn-btn--sm" type="button">Exportar</button></footer>
+  </section>
+  <section class="gn-card gn-card--app"><div class="gn-card__body gn-stack" style="gap:6px"><span class="gn-stat__label">Card do app</span><span class="gn-muted">Raio radius-xl, borda border-subtle e sombra shadow-sm para separar do fundo cinza.</span></div></section>
+</div>
+</body>
+</html>

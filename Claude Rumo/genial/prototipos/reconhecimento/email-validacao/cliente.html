@@ -1,0 +1,108 @@
+<!doctype html>
+<!--
+  Modelo de e-mail: Solicitação de validação (id: email-validacao) · Variante: pessoa do cliente (link seguro)
+  Variante do gestor: ./index.html. Versão em texto puro: ./texto.txt
+  Mesmas regras de estilo da variante do gestor (decisão 003). Tokens usados:
+    #F8FAFD bg-page · #FFFFFF bg-surface · #F1F5F9 bg-sunken · #D8E1E9 border-default · #E5ECF2 border-subtle
+    #111C26 text-strong · #222F3B text-default · #4E5D69 text-muted · #0676AE action/link · #8693A0 control-border
+    #93332D negative-text
+
+  Variáveis: nomeValidador, nomeColaborador, primeiroNomeColaborador, tituloEntrega, resultado, tempo, origem, prazo,
+  linkSeguroAprovar, linkSeguroAjustes, linkSeguroRecusar (o mesmo token de uso único com a decisão escolhida).
+
+  Regras usadas:
+    CONFIRMADA  link seguro de uso único, válido até o fim do prazo, só para o e-mail informado (Q-validador-externo);
+                sem acesso ao resto do Genial (esp. 6); decisões Aprovar · Solicitar ajustes · Recusar
+    HIPÓTESE    os botões abrem a página com a decisão escolhida; nada é decidido só pelo clique no e-mail
+  Dados fictícios.
+-->
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="x-apple-disable-message-reformatting">
+  <title>Confirme uma entrega — Genial</title>
+</head>
+<body style="margin:0; padding:0; background-color:#F8FAFD;">
+  <div style="display:none; max-height:0; overflow:hidden; mso-hide:all;">Ana Ribeiro, da Rumo Soluções, pediu que você confirme uma entrega feita no seu projeto. Responda até 05/11.</div>
+
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#F8FAFD;">
+    <tr>
+      <td align="center" style="padding:32px 16px;">
+        <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="width:100%; max-width:600px;">
+
+          <tr>
+            <td style="padding:0 0 24px 0;">
+              <img src="../../../docs/design-system/assets/logos/genial-logo.png" width="120" alt="Genial, Rumo Soluções" style="display:block; width:120px; height:auto; border:0;">
+            </td>
+          </tr>
+
+          <tr>
+            <td style="background-color:#FFFFFF; border:1px solid #D8E1E9; border-radius:12px; padding:32px; font-family:'Plus Jakarta Sans','Segoe UI',Arial,sans-serif; color:#222F3B;">
+
+              <p style="margin:0 0 8px 0; font-size:12px; line-height:16px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#4E5D69;">Confirmação de entrega</p>
+              <h1 style="margin:0 0 16px 0; font-size:22px; line-height:30px; font-weight:700; color:#111C26;">Ana Ribeiro pediu que você confirme uma entrega</h1>
+              <p style="margin:0 0 24px 0; font-size:15px; line-height:22px; color:#222F3B;">Olá, Marcos. Ana é desenvolvedora da Rumo Soluções e trabalhou no seu projeto. A Rumo reconhece as melhores entregas do mês, e Ana indicou você para confirmar o que foi feito. Leva cerca de 2 minutos e não precisa de login.</p>
+
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#F1F5F9; border-radius:8px;">
+                <tr>
+                  <td style="padding:20px; font-family:'Plus Jakarta Sans','Segoe UI',Arial,sans-serif;">
+                    <p style="margin:0 0 12px 0; font-size:17px; line-height:24px; font-weight:700; color:#111C26;">Treinamento de Git para a equipe do cliente</p>
+                    <p style="margin:0 0 4px 0; font-size:13px; line-height:18px; font-weight:600; color:#4E5D69;">Resultado informado</p>
+                    <p style="margin:0 0 12px 0; font-size:15px; line-height:22px; color:#111C26;">Oito pessoas treinadas. Os conflitos de merge que travavam as entregas caíram de cerca de 6 para 1 por sprint.</p>
+                    <p style="margin:0; font-size:13px; line-height:18px; color:#4E5D69;">2 semanas · Iniciativa própria · Enviada em 20/10</p>
+                  </td>
+                </tr>
+              </table>
+
+              <p style="margin:24px 0 0 0; font-size:15px; line-height:22px; font-weight:600; color:#111C26;">Você confirma a realização e os resultados apresentados?</p>
+
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:16px 0 0 0;">
+                <tr>
+                  <td style="padding:0 8px 8px 0;">
+                    <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
+                      <td bgcolor="#0676AE" style="border-radius:8px;">
+                        <a href="../validar-entregas/externo.html?decisao=aprovar" style="display:inline-block; padding:12px 20px; font-family:'Plus Jakarta Sans','Segoe UI',Arial,sans-serif; font-size:15px; line-height:20px; font-weight:700; color:#FFFFFF; text-decoration:none; border-radius:8px;">Aprovar</a>
+                      </td>
+                    </tr></table>
+                  </td>
+                  <td style="padding:0 8px 8px 0;">
+                    <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
+                      <td bgcolor="#FFFFFF" style="border:1px solid #8693A0; border-radius:8px;">
+                        <a href="../validar-entregas/externo.html?decisao=ajustes" style="display:inline-block; padding:11px 19px; font-family:'Plus Jakarta Sans','Segoe UI',Arial,sans-serif; font-size:15px; line-height:20px; font-weight:600; color:#111C26; text-decoration:none; border-radius:8px;">Solicitar ajustes</a>
+                      </td>
+                    </tr></table>
+                  </td>
+                  <td style="padding:0 0 8px 0;">
+                    <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
+                      <td bgcolor="#FFFFFF" style="border:1px solid #8693A0; border-radius:8px;">
+                        <a href="../validar-entregas/externo.html?decisao=recusar" style="display:inline-block; padding:11px 19px; font-family:'Plus Jakarta Sans','Segoe UI',Arial,sans-serif; font-size:15px; line-height:20px; font-weight:600; color:#93332D; text-decoration:none; border-radius:8px;">Recusar</a>
+                      </td>
+                    </tr></table>
+                  </td>
+                </tr>
+              </table>
+
+              <p style="margin:12px 0 0 0; font-size:13px; line-height:18px; color:#4E5D69;">Os botões abrem a entrega completa, com as evidências, para você confirmar a resposta. Para solicitar ajustes ou recusar, você escreve um comentário para Ana.</p>
+
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:24px 0 0 0; border-top:1px solid #E5ECF2;">
+                <tr>
+                  <td style="padding:16px 0 0 0; font-family:'Plus Jakarta Sans','Segoe UI',Arial,sans-serif; font-size:14px; line-height:20px; color:#222F3B;">
+                    <strong style="color:#111C26;">Responda até 05/11.</strong> Este link é pessoal: vale só para você, pode ser usado uma vez e expira em 05/11. Não encaminhe este e-mail.
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:20px 8px 0 8px; font-family:'Plus Jakarta Sans','Segoe UI',Arial,sans-serif; font-size:12px; line-height:18px; color:#4E5D69;">
+              Você recebeu este e-mail porque Ana Ribeiro, da Rumo Soluções, informou o seu endereço para confirmar uma entrega. Se você não conhece este trabalho, ignore a mensagem: nada é registrado sem a sua resposta. Não responda: este endereço não recebe mensagens.
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

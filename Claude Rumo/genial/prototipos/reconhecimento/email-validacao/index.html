@@ -1,0 +1,117 @@
+<!doctype html>
+<!--
+  Modelo de e-mail: Solicitação de validação (id: email-validacao) · Variante: gestor da Rumo
+  Outra variante: ./cliente.html (pessoa do cliente, link seguro). Versão em texto puro: ./texto.txt
+  Fonte: docs/modulos/reconhecimento/especificacao.md (4, 6) e decisão docs/decisoes/003-email-valores-literais.md
+
+  E-mail não é tela: HTML em tabelas, estilos inline, sem JS e sem CSS externo (decisão 003).
+  Valores literais vêm de tokens.json:
+    #F8FAFD bg-page · #FFFFFF bg-surface · #F1F5F9 bg-sunken · #D8E1E9 border-default · #E5ECF2 border-subtle
+    #111C26 text-strong · #222F3B text-default · #4E5D69 text-muted · #0676AE action/link · #8693A0 control-border
+    #93332D negative-text
+
+  Variáveis do modelo (entre {{ }}): nomeValidador, nomeColaborador, primeiroNomeColaborador, tituloEntrega,
+  resultado (até 280 caracteres, cortado com reticências), tempo, origem, prazo, linkAprovar, linkAjustes, linkRecusar.
+
+  Regras usadas (detalhes em questoes-abertas.md):
+    CONFIRMADA  e-mail automático ao validador com resumo e link (esp. 6); três decisões Aprovar · Solicitar ajustes · Recusar
+                (Q-termos); prazo de validação (esp. 9)
+    HIPÓTESE    os botões abrem a página de validação com a decisão já escolhida; nada é decidido só pelo clique no e-mail
+                (proteção contra leitores de link automáticos e porque ajustes e recusa exigem comentário)
+  Dados fictícios.
+-->
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="x-apple-disable-message-reformatting">
+  <title>Solicitação de validação — Genial</title>
+</head>
+<body style="margin:0; padding:0; background-color:#F8FAFD;">
+  <!-- Pré-cabeçalho: aparece na lista de e-mails, escondido no corpo -->
+  <div style="display:none; max-height:0; overflow:hidden; mso-hide:all;">Bruno Costa registrou uma entrega e indicou você para confirmar. Decida até 05/11.</div>
+
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#F8FAFD;">
+    <tr>
+      <td align="center" style="padding:32px 16px;">
+        <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="width:100%; max-width:600px;">
+
+          <!-- Logo -->
+          <tr>
+            <td style="padding:0 0 24px 0;">
+              <img src="../../../docs/design-system/assets/logos/genial-logo.png" width="120" alt="Genial" style="display:block; width:120px; height:auto; border:0;">
+            </td>
+          </tr>
+
+          <!-- Cartão -->
+          <tr>
+            <td style="background-color:#FFFFFF; border:1px solid #D8E1E9; border-radius:12px; padding:32px; font-family:'Plus Jakarta Sans','Segoe UI',Arial,sans-serif; color:#222F3B;">
+
+              <p style="margin:0 0 8px 0; font-size:12px; line-height:16px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#4E5D69;">Solicitação de validação</p>
+              <h1 style="margin:0 0 16px 0; font-size:22px; line-height:30px; font-weight:700; color:#111C26;">Bruno Costa registrou uma entrega e indicou você para confirmar</h1>
+              <p style="margin:0 0 24px 0; font-size:15px; line-height:22px; color:#222F3B;">Olá, Carlos. A entrega foi registrada no módulo de Reconhecimento do Genial. Você confirma a realização e os resultados apresentados?</p>
+
+              <!-- Resumo da entrega -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#F1F5F9; border-radius:8px;">
+                <tr>
+                  <td style="padding:20px; font-family:'Plus Jakarta Sans','Segoe UI',Arial,sans-serif;">
+                    <p style="margin:0 0 12px 0; font-size:17px; line-height:24px; font-weight:700; color:#111C26;">Redução do tempo de build do aplicativo</p>
+                    <p style="margin:0 0 4px 0; font-size:13px; line-height:18px; font-weight:600; color:#4E5D69;">Resultado informado</p>
+                    <p style="margin:0 0 12px 0; font-size:15px; line-height:22px; color:#111C26;">O build caiu de 42 para 11 minutos. A equipe faz em média 30 builds por dia, o que libera cerca de 15 horas de espera por dia.</p>
+                    <p style="margin:0; font-size:13px; line-height:18px; color:#4E5D69;">5 dias · Iniciativa própria · Enviada em 19/10</p>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Botões -->
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:28px 0 0 0;">
+                <tr>
+                  <td style="padding:0 8px 8px 0;">
+                    <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
+                      <td bgcolor="#0676AE" style="border-radius:8px;">
+                        <a href="../validar-entregas/index.html?entrega=e1&amp;decisao=aprovar" style="display:inline-block; padding:12px 20px; font-family:'Plus Jakarta Sans','Segoe UI',Arial,sans-serif; font-size:15px; line-height:20px; font-weight:700; color:#FFFFFF; text-decoration:none; border-radius:8px;">Aprovar</a>
+                      </td>
+                    </tr></table>
+                  </td>
+                  <td style="padding:0 8px 8px 0;">
+                    <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
+                      <td bgcolor="#FFFFFF" style="border:1px solid #8693A0; border-radius:8px;">
+                        <a href="../validar-entregas/index.html?entrega=e1&amp;decisao=ajustes" style="display:inline-block; padding:11px 19px; font-family:'Plus Jakarta Sans','Segoe UI',Arial,sans-serif; font-size:15px; line-height:20px; font-weight:600; color:#111C26; text-decoration:none; border-radius:8px;">Solicitar ajustes</a>
+                      </td>
+                    </tr></table>
+                  </td>
+                  <td style="padding:0 0 8px 0;">
+                    <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
+                      <td bgcolor="#FFFFFF" style="border:1px solid #8693A0; border-radius:8px;">
+                        <a href="../validar-entregas/index.html?entrega=e1&amp;decisao=recusar" style="display:inline-block; padding:11px 19px; font-family:'Plus Jakarta Sans','Segoe UI',Arial,sans-serif; font-size:15px; line-height:20px; font-weight:600; color:#93332D; text-decoration:none; border-radius:8px;">Recusar</a>
+                      </td>
+                    </tr></table>
+                  </td>
+                </tr>
+              </table>
+
+              <p style="margin:12px 0 0 0; font-size:13px; line-height:18px; color:#4E5D69;">Os botões abrem a entrega completa no Genial, com as evidências, para você confirmar a decisão. Para solicitar ajustes ou recusar, você escreve um comentário para Bruno.</p>
+
+              <!-- Prazo -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:24px 0 0 0; border-top:1px solid #E5ECF2;">
+                <tr>
+                  <td style="padding:16px 0 0 0; font-family:'Plus Jakarta Sans','Segoe UI',Arial,sans-serif; font-size:14px; line-height:20px; color:#222F3B;">
+                    <strong style="color:#111C26;">Decida até 05/11.</strong> As entregas aprovadas são avaliadas pelos critérios do programa e entram no ranking de outubro. Todas as entregas que aguardam você estão em <a href="../validar-entregas/index.html" style="color:#0676AE; text-decoration:underline;">Validação de entregas</a>.
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Rodapé -->
+          <tr>
+            <td style="padding:20px 8px 0 8px; font-family:'Plus Jakarta Sans','Segoe UI',Arial,sans-serif; font-size:12px; line-height:18px; color:#4E5D69;">
+              Você recebeu este e-mail porque Bruno Costa indicou você como validador no Genial, sistema da Rumo Soluções. Não responda: este endereço não recebe mensagens. Dúvidas sobre o programa: fale com o RH.
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

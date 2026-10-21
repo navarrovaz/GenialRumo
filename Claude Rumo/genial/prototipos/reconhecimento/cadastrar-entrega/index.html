@@ -1,0 +1,352 @@
+<!doctype html>
+<!--
+  Tela: Cadastrar entrega (id: cadastrar-entrega) · Perfil: colaborador
+  Fonte: docs/modulos/reconhecimento/especificacao.md (5.1, 5.2, 5.3, 12) e telas-previstas.md
+
+  Estados (?estado=<nome>):
+    padrao          formulário vazio (padrão)
+    preenchido      exemplo da especificação (Ana), pronto para enviar
+    rascunho        rascunho salvo, com opção de excluir
+    erro-validacao  envio com campos obrigatórios vazios
+    duplicada       título parecido com outra entrega do ciclo
+    externo         validação por uma pessoa do cliente
+    enviando        botão de envio carregando
+    enviada         confirmação depois do envio
+    erro-envio      falha ao enviar, dados mantidos como rascunho
+    sem-permissao   usuário sem acesso ao módulo
+    editar          edição de entrega aguardando validação (vem de Minhas entregas ou do detalhe; validado)
+    ajustes         ajuste pedido pelo gestor, com o comentário e "Reenviar para validação" (validado)
+
+  Status: Validada pelo dono do produto em 21/10/2026.
+  Regras usadas (detalhes em questoes-abertas.md):
+    CONFIRMADA  campos da esp. 5.1; aviso de confidencialidade; rascunho exige só o título; envio vai para
+                "Aguardando validação"; colaborador edita até o gestor decidir; gestor aprova pela relevância
+                (impacto x esforço); "Em quanto tempo?" como número + unidade; origem obrigatória; gestor do Genial
+                pré-selecionado ou pessoa do cliente com nome e e-mail; evidências opcionais, até 10 MB;
+                alerta de entrega parecida, sem bloquear
+    PROPOSTA    pesos exibidos são os sugeridos pela esp. 7.1 e vêm da configuração do RH
+  Trechos que simulam o backend estão marcados com // SIMULAÇÃO em tela.js.
+  Dados fictícios.
+-->
+<html lang="pt-BR" data-perfil="colaborador">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cadastrar entrega — Genial</title>
+  <link rel="icon" href="../../../docs/design-system/assets/logos/genial-favicon-48.png">
+  <link rel="stylesheet" href="../../../docs/design-system/tokens.css">
+  <link rel="stylesheet" href="../../../docs/design-system/components/bundle.css">
+  <link rel="stylesheet" href="./tela.css">
+  <script src="../../_comum/sessao.js"></script>
+</head>
+<body>
+<div class="gn gn-shell">
+
+  <!-- Menu lateral: só os itens que o perfil colaborador pode abrir -->
+  <aside class="gn-sidebar" aria-label="Menu principal">
+    <div class="gn-sidebar__brand"><img src="../../../docs/design-system/assets/logos/genial-logo.png" alt="Genial"></div>
+    <nav class="gn-sidebar__nav">
+      <div class="gn-nav-section">
+        <span class="gn-nav-section__label">INÍCIO</span>
+        <a class="gn-nav-item" href="#"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span>Página inicial</span></a>
+      </div>
+      <div class="gn-nav-section">
+        <span class="gn-nav-section__label">MEU PONTO</span>
+        <a class="gn-nav-item" href="#"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 10a2 2 0 0 0-2 2c0 1.02-.1 2.51-.26 4"/><path d="M14 13.12c0 2.38 0 6.38-1 8.88"/><path d="M17.29 21.02c.12-.6.43-2.3.5-3.02"/><path d="M2 12a10 10 0 0 1 18-6"/><path d="M2 16h.01"/><path d="M21.8 16c.2-2 .131-5.354 0-6"/><path d="M5 19.5C5.5 18 6 15 6 12a6 6 0 0 1 .34-2"/><path d="M8.65 22c.21-.66.45-1.32.57-2"/><path d="M9 6.8a6 6 0 0 1 9 5.2v2"/></svg><span>Registrar ponto</span></a>
+        <a class="gn-nav-item" href="#"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 7.5V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h3.5"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h5"/><path d="M17.5 17.5 16 16.3V14"/><circle cx="16" cy="16" r="6"/></svg><span>Horas lançadas</span></a>
+      </div>
+      <div class="gn-nav-section">
+        <span class="gn-nav-section__label">RECONHECIMENTO</span>
+        <a class="gn-nav-item" href="../visao-geral/index.html"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg><span>Visão geral</span></a>
+        <a class="gn-nav-item" href="#" aria-current="page"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg><span>Cadastrar entrega</span></a>
+        <a class="gn-nav-item" href="../minhas-entregas/index.html"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/><path d="M13 6h8"/><path d="M13 12h8"/><path d="M13 18h8"/></svg><span>Minhas entregas</span></a>
+        <a class="gn-nav-item" href="../ranking-mensal/index.html"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"/><circle cx="12" cy="8" r="6"/></svg><span>Ranking mensal</span></a>
+        <a class="gn-nav-item" href="../historico-reconhecimentos/index.html"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg><span>Histórico de reconhecimentos</span></a>
+      </div>
+      <div class="gn-nav-section">
+        <span class="gn-nav-section__label">AJUDA</span>
+        <a class="gn-nav-item" href="#"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg><span>Tutoriais</span></a>
+        <a class="gn-nav-item" href="#"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg><span>Falar com o suporte</span></a>
+      </div>
+    </nav>
+    <div class="gn-sidebar__footer">
+      <div class="gn-user"><span class="gn-avatar gn-avatar--img"><img src="../../../docs/design-system/assets/avatares/avatar-02.svg" alt="" data-meu-avatar></span><div style="min-width:0"><div class="gn-user__name">Ana Ribeiro</div><div class="gn-user__role">Desenvolvedora · Exemplo</div></div></div>
+    </div>
+  </aside>
+
+  <div class="gn-main">
+    <header class="gn-topbar">
+      <nav class="gn-breadcrumb" aria-label="Você está em"><span>Reconhecimento</span><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg><span aria-current="page">Cadastrar entrega</span></nav>
+      <div class="gn-topbar__actions">
+        <button class="gn-iconbtn" type="button" aria-label="Ajuda"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg></button>
+        <button class="gn-iconbtn" type="button" aria-label="Notificações"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></button>
+        <span class="gn-avatar gn-avatar--img gn-avatar--sm"><img src="../../../docs/design-system/assets/avatares/avatar-02.svg" alt="" data-meu-avatar></span>
+      </div>
+    </header>
+
+    <main class="gn-page" id="conteudo">
+      <div class="gn-page__head">
+        <div>
+          <h1 class="gn-page__title" id="titulo-pagina">Cadastrar entrega</h1>
+          <p class="gn-page__desc">Conte uma realização sua deste mês. Seu gestor confirma e a entrega é avaliada pelos mesmos critérios para todos.</p>
+        </div>
+        <dl class="gn-row tela-ciclo">
+          <div class="gn-readout"><dt>Ciclo</dt><dd>Outubro de 2026</dd></div>
+          <div class="gn-readout"><dt>Cadastro até</dt><dd class="gn-num">31/10</dd></div>
+          <div class="gn-readout"><dt>Validação até</dt><dd class="gn-num">05/11</dd></div>
+        </dl>
+      </div>
+
+      <!-- Mensagens da página: resumo de erros, rascunho salvo, falha de envio -->
+      <div id="mensagens" class="gn-stack" tabindex="-1"></div>
+
+      <div class="tela-grid" id="area-form">
+        <form class="gn-card" id="form-entrega" novalidate aria-labelledby="titulo-pagina">
+          <div class="gn-card__header">
+            <div>
+              <h2 class="gn-card__title">Sobre a entrega</h2>
+              <p class="gn-card__subtitle">Campos com <span aria-hidden="true">*</span> são obrigatórios para enviar.</p>
+            </div>
+            <span class="gn-badge gn-badge--neutral" id="badge-rascunho" hidden><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>Rascunho</span>
+          </div>
+
+          <div class="gn-card__body tela-form">
+            <div class="gn-alert gn-alert--attention" role="note">
+              <svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <div class="gn-alert__body">
+                <span class="gn-alert__title">Não registre informações confidenciais</span>
+                <span class="gn-alert__text">Não inclua dados sensíveis nem conteúdo sigiloso de clientes, nem nos textos nem nas evidências. Descreva o cliente de forma geral, como "um varejista de São Paulo".</span>
+              </div>
+            </div>
+
+            <!-- A ENTREGA -->
+            <fieldset class="tela-secao">
+              <legend class="overline tela-legenda">A ENTREGA</legend>
+
+              <div class="gn-field" data-campo="titulo">
+                <label class="gn-label" for="f-titulo">Título da entrega<span class="gn-req" aria-hidden="true">*</span></label>
+                <input class="gn-input" id="f-titulo" name="titulo" maxlength="100" autocomplete="off" required aria-describedby="f-titulo-help" placeholder="Ex.: Automatização do relatório de vendas">
+                <div class="gn-help-row">
+                  <span class="gn-help" id="f-titulo-help">Um nome curto, como você contaria a um colega.</span>
+                  <span class="gn-counter" id="f-titulo-cont" aria-hidden="true">0/100</span>
+                </div>
+              </div>
+
+              <!-- HIPÓTESE (Q-duplicidade): alerta sem bloquear o envio -->
+              <div class="gn-alert gn-alert--attention" id="alerta-duplicada" role="status" hidden>
+                <svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+                <div class="gn-alert__body">
+                  <span class="gn-alert__title">Você já cadastrou uma entrega parecida neste ciclo</span>
+                  <span class="gn-alert__text">"Relatório de vendas automatizado", enviada em 08/10. Se for a mesma entrega, edite a que já existe.</span>
+                </div>
+                <div class="gn-alert__actions"><a class="gn-btn gn-btn--secondary gn-btn--sm" href="../detalhe-entrega/index.html?estado=avaliada">Ver entrega</a></div>
+              </div>
+
+              <div class="gn-field" data-campo="descricao">
+                <label class="gn-label" for="f-descricao">O que você entregou?<span class="gn-req" aria-hidden="true">*</span></label>
+                <textarea class="gn-input gn-textarea" id="f-descricao" name="descricao" rows="4" maxlength="1000" required aria-describedby="f-descricao-help" placeholder="Ex.: Automatizei a geração do relatório de vendas do cliente, que antes era montado à mão em planilhas."></textarea>
+                <div class="gn-help-row">
+                  <span class="gn-help" id="f-descricao-help">A atividade ou a solução que você desenvolveu.</span>
+                  <span class="gn-counter" id="f-descricao-cont" aria-hidden="true">0/1000</span>
+                </div>
+              </div>
+
+              <!-- HIPÓTESE (Q-campos): número + unidade -->
+              <div class="gn-field" data-campo="tempo">
+                <span class="gn-label" id="f-tempo-label">Em quanto tempo?<span class="gn-req" aria-hidden="true">*</span></span>
+                <div class="tela-tempo" role="group" aria-labelledby="f-tempo-label" aria-describedby="f-tempo-help">
+                  <label class="gn-sr" for="f-tempo">Quantidade</label>
+                  <input class="gn-input gn-num" id="f-tempo" name="tempo" type="number" min="1" max="999" inputmode="numeric" required placeholder="7">
+                  <label class="gn-sr" for="f-tempo-unidade">Unidade</label>
+                  <select class="gn-select" id="f-tempo-unidade" name="tempoUnidade">
+                    <option value="horas">Horas</option>
+                    <option value="dias" selected>Dias</option>
+                    <option value="semanas">Semanas</option>
+                    <option value="meses">Meses</option>
+                  </select>
+                </div>
+                <span class="gn-help" id="f-tempo-help">Do início à conclusão da entrega.</span>
+              </div>
+
+              <!-- HIPÓTESE (Q-campo-iniciativa): obrigatório, alimenta o critério Iniciativa -->
+              <fieldset class="gn-field tela-grupo" data-campo="origem" aria-describedby="f-origem-help">
+                <legend class="gn-label">Como a entrega começou?<span class="gn-req" aria-hidden="true">*</span></legend>
+                <div class="tela-opcoes">
+                  <label class="gn-check"><input type="radio" id="f-origem-iniciativa" name="origem" value="iniciativa">Foi uma iniciativa minha</label>
+                  <label class="gn-check"><input type="radio" id="f-origem-demanda" name="origem" value="demanda">Foi uma demanda que recebi</label>
+                </div>
+                <span class="gn-help" id="f-origem-help">Conta no critério Iniciativa e proatividade.</span>
+              </fieldset>
+            </fieldset>
+
+            <!-- O RESULTADO -->
+            <fieldset class="tela-secao">
+              <legend class="overline tela-legenda">O RESULTADO</legend>
+              <div class="gn-field" data-campo="resultado">
+                <label class="gn-label" for="f-resultado">Qual foi o resultado?<span class="gn-req" aria-hidden="true">*</span></label>
+                <textarea class="gn-input gn-textarea" id="f-resultado" name="resultado" rows="4" maxlength="1000" required aria-describedby="f-resultado-help" placeholder="Ex.: O relatório levava 2 dias para ficar pronto e agora sai em 10 minutos."></textarea>
+                <div class="gn-help-row">
+                  <span class="gn-help" id="f-resultado-help">Prefira números: antes e depois, tempo economizado, custo evitado, problema resolvido.</span>
+                  <span class="gn-counter" id="f-resultado-cont" aria-hidden="true">0/1000</span>
+                </div>
+              </div>
+            </fieldset>
+
+            <!-- VALIDAÇÃO -->
+            <fieldset class="tela-secao">
+              <legend class="overline tela-legenda">QUEM PODE CONFIRMAR</legend>
+
+              <!-- HIPÓTESE (Q-quem-confirma, Q-validador-externo) -->
+              <fieldset class="gn-field tela-grupo">
+                <legend class="gn-label">Quem acompanhou a entrega?<span class="gn-req" aria-hidden="true">*</span></legend>
+                <div class="tela-opcoes">
+                  <label class="gn-check"><input type="radio" name="tipoValidador" value="gestor" checked>Um gestor da Rumo</label>
+                  <label class="gn-check"><input type="radio" name="tipoValidador" value="externo">Uma pessoa do cliente</label>
+                </div>
+              </fieldset>
+
+              <div class="gn-field" data-campo="gestor" id="bloco-gestor">
+                <label class="gn-label" for="f-gestor">Gestor<span class="gn-req" aria-hidden="true">*</span></label>
+                <select class="gn-select tela-campo-medio" id="f-gestor" name="gestor" aria-describedby="f-gestor-help">
+                  <option value="carlos" selected>Carlos Andrade (seu gestor)</option>
+                  <option value="fernanda">Fernanda Lima</option>
+                  <option value="rafael">Rafael Souza</option>
+                </select>
+                <span class="gn-help" id="f-gestor-help">Seu gestor cadastrado no Genial já vem selecionado. Quem você escolher recebe um e-mail para aprovar.</span>
+              </div>
+
+              <div class="tela-externo" id="bloco-externo" hidden>
+                <div class="gn-field" data-campo="externoNome">
+                  <label class="gn-label" for="f-externo-nome">Nome<span class="gn-req" aria-hidden="true">*</span></label>
+                  <input class="gn-input" id="f-externo-nome" name="externoNome" autocomplete="off" placeholder="Ex.: Marcos Teixeira">
+                </div>
+                <div class="gn-field" data-campo="externoEmail">
+                  <label class="gn-label" for="f-externo-email">E-mail<span class="gn-req" aria-hidden="true">*</span></label>
+                  <input class="gn-input" id="f-externo-email" name="externoEmail" type="email" autocomplete="off" placeholder="nome@cliente.com.br">
+                </div>
+                <span class="gn-help tela-externo__help" id="f-externo-help">A pessoa recebe por e-mail um link seguro para validar, sem acesso ao Genial.</span>
+              </div>
+            </fieldset>
+
+            <!-- EVIDÊNCIAS — HIPÓTESE (Q-evidencias): opcionais, até 10 MB por arquivo -->
+            <fieldset class="tela-secao" data-campo="evidencias">
+              <legend class="overline tela-legenda">EVIDÊNCIAS</legend>
+              <p class="gn-help tela-sem-margem" id="f-evidencias-help">Opcional, mas conta no critério Evidências. Arquivos, prints, documentos ou links, como um e-mail de agradecimento. PDF, imagem ou documento do Office, até 10 MB cada.</p>
+
+              <ul class="gn-attach-list" id="lista-evidencias" aria-label="Evidências adicionadas"></ul>
+
+              <div class="gn-attach-actions">
+                <input type="file" id="f-arquivo" class="gn-sr" tabindex="-1" multiple accept=".pdf,.png,.jpg,.jpeg,.doc,.docx,.xls,.xlsx,.ppt,.pptx">
+                <button class="gn-btn gn-btn--secondary gn-btn--sm" type="button" id="btn-arquivo" aria-describedby="f-evidencias-help"><svg class="gn-icon gn-icon--sm" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>Anexar arquivo</button>
+                <button class="gn-btn gn-btn--secondary gn-btn--sm" type="button" id="btn-link" aria-expanded="false" aria-controls="bloco-link"><svg class="gn-icon gn-icon--sm" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>Adicionar link</button>
+              </div>
+
+              <div class="gn-field" id="bloco-link" data-campo="link" hidden>
+                <label class="gn-label" for="f-link">Endereço do link</label>
+                <div class="tela-link">
+                  <input class="gn-input" id="f-link" type="url" inputmode="url" placeholder="https://" aria-describedby="f-link-help">
+                  <button class="gn-btn gn-btn--secondary" type="button" id="btn-link-adicionar">Adicionar</button>
+                </div>
+                <span class="gn-help" id="f-link-help">Confira se o gestor consegue abrir o link.</span>
+              </div>
+            </fieldset>
+          </div>
+
+          <div class="gn-card__footer tela-footer">
+            <button class="gn-btn gn-btn--ghost tela-footer__excluir" type="button" id="btn-excluir" hidden><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>Excluir rascunho</button>
+            <button class="gn-btn gn-btn--secondary" type="button" id="btn-rascunho"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"/><path d="M7 3v4a1 1 0 0 0 1 1h7"/></svg>Salvar rascunho</button>
+            <button class="gn-btn gn-btn--primary" type="submit" id="btn-enviar"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"/><path d="m21.854 2.147-10.94 10.939"/></svg><span>Enviar para validação</span></button>
+          </div>
+        </form>
+
+        <!-- Coluna de apoio -->
+        <aside class="gn-stack tela-apoio" aria-label="Como funciona">
+          <section class="gn-card">
+            <div class="gn-card__header"><h2 class="gn-card__title">Como funciona</h2></div>
+            <div class="gn-card__body">
+              <ol class="gn-steps">
+                <li><span class="gn-steps__num" aria-hidden="true">1</span><div class="gn-steps__body"><span class="gn-steps__title">Você cadastra a entrega</span><span class="gn-steps__text">Quantas quiser, até 31/10. Dá para editar até o gestor decidir.</span></div></li>
+                <li><span class="gn-steps__num" aria-hidden="true">2</span><div class="gn-steps__body"><span class="gn-steps__title">O gestor avalia</span><span class="gn-steps__text">Aprova se a entrega for relevante pelo impacto e pelo esforço, pede ajustes ou recusa.</span></div></li>
+                <li><span class="gn-steps__num" aria-hidden="true">3</span><div class="gn-steps__body"><span class="gn-steps__title">A IA atribui a pontuação</span><span class="gn-steps__text">De 1 a 5, com justificativa, pelos critérios abaixo.</span></div></li>
+                <li><span class="gn-steps__num" aria-hidden="true">4</span><div class="gn-steps__body"><span class="gn-steps__title">O RH homologa</span><span class="gn-steps__text">O ranking oficial e o Destaque do Mês saem em 10/11.</span></div></li>
+              </ol>
+            </div>
+          </section>
+
+          <section class="gn-card" aria-labelledby="t-criterios">
+            <div class="gn-card__header">
+              <div>
+                <h2 class="gn-card__title" id="t-criterios">Critérios da avaliação</h2>
+                <p class="gn-card__subtitle">Pesos definidos pelo RH para outubro de 2026.</p>
+              </div>
+            </div>
+            <div class="gn-card__body">
+              <ul class="gn-meters">
+                <li><div class="gn-meter__row"><span>Impacto gerado</span><span class="gn-meter__value">40%</span></div><div class="gn-progress" aria-hidden="true"><span style="width:40%"></span></div></li>
+                <li><div class="gn-meter__row"><span>Complexidade e esforço</span><span class="gn-meter__value">25%</span></div><div class="gn-progress" aria-hidden="true"><span style="width:25%"></span></div></li>
+                <li><div class="gn-meter__row"><span>Iniciativa e proatividade</span><span class="gn-meter__value">20%</span></div><div class="gn-progress" aria-hidden="true"><span style="width:20%"></span></div></li>
+                <li><div class="gn-meter__row"><span>Evidências do resultado</span><span class="gn-meter__value">15%</span></div><div class="gn-progress" aria-hidden="true"><span style="width:15%"></span></div></li>
+              </ul>
+            </div>
+          </section>
+
+          <section class="gn-card" aria-labelledby="t-dicas">
+            <div class="gn-card__header"><h2 class="gn-card__title" id="t-dicas">Para descrever bem</h2></div>
+            <div class="gn-card__body">
+              <ul class="tela-dicas">
+                <li><svg class="gn-icon gn-icon--sm" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Diga como era antes e como ficou depois.</li>
+                <li><svg class="gn-icon gn-icon--sm" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Conte quem se beneficiou: uma equipe, uma área, o cliente.</li>
+                <li><svg class="gn-icon gn-icon--sm" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Uma entrega por cadastro. Entregas diferentes, cadastros diferentes.</li>
+              </ul>
+            </div>
+          </section>
+        </aside>
+      </div>
+
+      <!-- Estado: enviada -->
+      <section class="gn-card" id="area-enviada" hidden aria-labelledby="t-enviada">
+        <div class="gn-empty">
+          <span class="gn-empty__icon"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg></span>
+          <span class="gn-badge gn-badge--info"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Aguardando validação</span>
+          <h2 class="gn-empty__title" id="t-enviada" tabindex="-1">Entrega enviada para <span id="enviada-validador">Carlos Andrade</span></h2>
+          <p class="gn-empty__text"><span id="enviada-titulo">"Automatização do relatório de vendas"</span> está com o validador. Até a decisão, você pode editar ou excluir a entrega em Minhas entregas.</p>
+          <div class="gn-empty__actions">
+            <a class="gn-btn gn-btn--primary" href="../minhas-entregas/index.html">Ver minhas entregas</a>
+            <a class="gn-btn gn-btn--secondary" href="?estado=padrao">Cadastrar outra entrega</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Estado: sem-permissao -->
+      <section class="gn-card" id="area-sem-permissao" hidden>
+        <div class="gn-empty">
+          <span class="gn-empty__icon gn-empty__icon--lock"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
+          <h2 class="gn-empty__title">Você não tem acesso ao Reconhecimento</h2>
+          <p class="gn-empty__text">O cadastro de entregas é para colaboradores da Rumo. Se você deveria ter acesso, fale com o RH.</p>
+          <div class="gn-empty__actions"><a class="gn-btn gn-btn--secondary" href="#">Falar com o RH</a></div>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<!-- ConfirmDialog: excluir rascunho -->
+<div class="gn gn-scrim tela-scrim" id="dlg-excluir" hidden>
+  <div class="gn-dialog" role="dialog" aria-modal="true" aria-labelledby="dlg-excluir-t" aria-describedby="dlg-excluir-d">
+    <div class="gn-dialog__header">
+      <span class="gn-dialog__icon tela-dialog__icon--neg"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg></span>
+      <div>
+        <h2 class="gn-dialog__title" id="dlg-excluir-t">Excluir este rascunho?</h2>
+        <p class="gn-dialog__desc" id="dlg-excluir-d">O rascunho sai de Minhas entregas e não pode ser recuperado.</p>
+      </div>
+    </div>
+    <div class="gn-dialog__footer">
+      <button class="gn-btn gn-btn--secondary" type="button" data-fechar>Manter rascunho</button>
+      <button class="gn-btn gn-btn--danger" type="button" id="btn-excluir-confirmar">Excluir rascunho</button>
+    </div>
+  </div>
+</div>
+
+<script src="./tela.js"></script>
+</body>
+</html>

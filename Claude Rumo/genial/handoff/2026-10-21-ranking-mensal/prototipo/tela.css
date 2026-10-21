@@ -1,0 +1,62 @@
+/* Ranking mensal — layout da tela. Só var(--token). */
+
+html, body { margin: 0; background: var(--bg-page); }
+.gn-shell { min-height: 100vh; }
+[hidden] { display: none !important; }
+.tela-area { gap: var(--space-6); }
+.tela-ciclo-select { width: 300px; }
+.tela-sem-margem { margin: 0; }
+.tela-muted { color: var(--text-muted); }
+
+/* Grade */
+.tela-grid { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: var(--space-6); align-items: start; }
+.tela-coluna { gap: var(--space-6); min-width: 0; }
+@media (max-width: 1180px) { .tela-grid { grid-template-columns: minmax(0, 1fr); } }
+
+/* Tabela do ranking */
+.tela-ranking td { height: 56px; }
+.tela-posicao { display: inline-flex; align-items: center; gap: var(--space-1); font: 700 15px/20px var(--font-sans); color: var(--text-strong); font-variant-numeric: tabular-nums; }
+.tela-posicao--primeiro { color: var(--brand); }
+.tela-pessoa { display: inline-flex; align-items: center; gap: var(--space-3); }
+.tela-pessoa__texto { display: flex; flex-direction: column; }
+.tela-pessoa__nome { font-weight: 600; color: var(--text-strong); }
+.tela-pessoa__papel { font: 500 12px/16px var(--font-sans); color: var(--text-muted); }
+.tela-badge-voce { height: 20px; margin-left: var(--space-1); vertical-align: middle; }
+.tela-pontos { font-weight: 700; color: var(--text-strong); font-variant-numeric: tabular-nums; }
+.tela-desempate { display: inline-flex; vertical-align: middle; color: var(--text-muted); }
+.gn-table tr.tela-linha-eu td { background: var(--bg-selected); }
+.gn-table td.tela-col-acao { width: 1%; text-align: right; }
+.tela-btn-abrir .tela-seta { transition: transform .15s ease; }
+.tela-btn-abrir[aria-expanded="true"] .tela-seta { transform: rotate(180deg); }
+@media (prefers-reduced-motion: reduce) { .tela-btn-abrir .tela-seta { transition: none; } }
+.gn-table tr.tela-linha-detalhe td { height: auto; padding-top: var(--space-2); padding-bottom: var(--space-4); white-space: normal; background: var(--bg-page); }
+
+/* Entregas públicas */
+.tela-entregas-publicas { list-style: none; margin: 0 0 var(--space-2); padding: 0; display: flex; flex-direction: column; gap: var(--space-3); }
+.tela-entregas-publicas--separadas > li + li { padding-top: var(--space-3); border-top: 1px solid var(--border-subtle); }
+.tela-entrega-publica__linha { display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-3); }
+.tela-entrega-publica__titulo { font-weight: 600; color: var(--text-strong); }
+.tela-entrega-publica__autor { display: block; font: 500 12px/16px var(--font-sans); color: var(--text-muted); }
+.tela-entrega-publica__resumo { margin: 2px 0 0; color: var(--text-default); }
+
+/* Sua posição */
+.tela-sua-posicao { display: flex; align-items: center; gap: var(--space-3); }
+.tela-sua-posicao__valor { font: 700 40px/44px var(--font-sans); letter-spacing: -0.02em; color: var(--brand); font-variant-numeric: tabular-nums; }
+.tela-sua-posicao__de { font: 600 15px/20px var(--font-sans); color: var(--text-muted); }
+.tela-readouts { display: flex; flex-wrap: wrap; gap: var(--space-4) var(--space-8); margin: 0; }
+.tela-distancia { display: flex; gap: var(--space-2); align-items: flex-start; }
+.tela-distancia .gn-icon { margin-top: 2px; color: var(--text-muted); }
+.tela-alinha-inicio { align-self: flex-start; }
+
+/* Pódio e participantes */
+.tela-podio__corpo { padding: var(--space-6) var(--space-8) 0; }
+.tela-podio__corpo .gn-podium { max-width: 780px; margin: 0 auto; }
+.tela-participantes { justify-content: flex-start; align-items: center; gap: var(--space-3); }
+.tela-participantes__texto { color: var(--text-default); }
+.tela-participantes__texto b { color: var(--text-strong); }
+.gn-podium .tela-badge-voce { margin: 2px 0 0; }
+
+/* Carregando */
+.tela-esqueleto { display: inline-block; width: 120px; height: 12px; border-radius: var(--radius-full); background: var(--bg-sunken); vertical-align: middle; }
+.tela-esqueleto--lg { width: 220px; }
+.tela-esqueleto--sm { width: 32px; }

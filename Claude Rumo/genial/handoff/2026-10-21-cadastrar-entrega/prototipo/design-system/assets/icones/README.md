@@ -1,0 +1,1 @@
+Ícones Lucide v0.460 (licença ISC), sem alterações. Traço em `currentColor`: inline no HTML eles herdam a cor do texto; em `<img>` aparecem em preto. Use traço de 1.75 a 20px e de 2 a 16px. O mapa de uso por funcionalidade está no README do sistema, em Iconografia.

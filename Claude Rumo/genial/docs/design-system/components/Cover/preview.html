@@ -1,0 +1,49 @@
+<!-- @dsCard height=288 -->
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><link rel="stylesheet" href="../../tokens.css"><link rel="stylesheet" href="../bundle.css"><title>Genial Design System</title>
+<style>
+  html, body { margin: 0; background: var(--bg-page); }
+  .cover { position: relative; width: 960px; height: 288px; overflow: hidden; background: var(--bg-page); font-family: var(--font-sans); }
+  .cover svg { position: absolute; inset: 0; }
+  .brand { fill: var(--genial-500); }
+  .deep { fill: var(--genial-800); }
+  .luz { fill: var(--genial-300); }
+  .bulb { fill: var(--neutral-0); }
+  .tile { rx: var(--radius-lg); ry: var(--radius-lg); }
+  .ray { rx: var(--radius-sm); ry: var(--radius-sm); }
+  .name { position: absolute; left: 48px; bottom: 40px; width: 440px; }
+  .name h1 { margin: 0; font-size: 56px; line-height: 0.95; font-weight: 800; letter-spacing: -0.02em; color: var(--text-strong); }
+  .name p { margin: 16px 0 0; font-size: 14px; line-height: 20px; font-weight: 500; color: var(--text-muted); }
+</style></head>
+<body>
+<div class="cover">
+  <!--
+    blocks: genial-500 slab 360×288 (bleeds top/right/bottom) · genial-800 block 80×120 · genial-300 block 80×80 · neutral-0 disc r=56
+    arrangement: one tall brand slab with two stacked satellites on its left edge
+    pattern: literal motif — the logo's light rays as 7 pills (12×36, rx = radius-sm) radiating from the bulb disc, in genial-300 like the logo
+    steps & radii: space-4 multiples (80, 120, 360), radius-lg on the satellites' outer corners, radius-sm (half of 12) on the rays
+  -->
+  <svg width="960" height="288" viewBox="0 0 960 288" aria-hidden="true">
+    <rect class="brand" x="600" y="0" width="360" height="288"></rect>
+    <rect class="luz tile" x="520" y="48" width="92" height="80"></rect>
+    <rect class="deep tile" x="520" y="128" width="92" height="160"></rect>
+    <rect class="brand" x="600" y="40" width="20" height="248"></rect>
+    <circle class="bulb" cx="780" cy="160" r="56"></circle>
+    <g transform="translate(780 160)">
+      <rect class="luz ray" x="-6" y="-120" width="12" height="36" transform="rotate(0)"></rect>
+      <rect class="luz ray" x="-6" y="-120" width="12" height="36" transform="rotate(-32)"></rect>
+      <rect class="luz ray" x="-6" y="-120" width="12" height="36" transform="rotate(32)"></rect>
+      <rect class="luz ray" x="-6" y="-120" width="12" height="36" transform="rotate(-64)"></rect>
+      <rect class="luz ray" x="-6" y="-120" width="12" height="36" transform="rotate(64)"></rect>
+      <rect class="luz ray" x="-6" y="-120" width="12" height="36" transform="rotate(-96)"></rect>
+      <rect class="luz ray" x="-6" y="-120" width="12" height="36" transform="rotate(96)"></rect>
+    </g>
+  </svg>
+  <div class="name">
+    <h1>Genial<br>Design System</h1>
+    <p>Cores, tipos e componentes para registrar a jornada com clareza.</p>
+  </div>
+</div>
+</body>
+</html>

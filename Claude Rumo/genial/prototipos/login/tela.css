@@ -1,0 +1,25 @@
+/* Entrar — layout da tela. Só var(--token). */
+
+html, body { margin: 0; background: var(--bg-page); }
+[hidden] { display: none !important; }
+#mensagens:focus { outline: none; }
+#mensagens:empty { display: none; }
+.tela-sem-margem { margin: 0; }
+
+.tela-login { min-height: 100vh; display: flex; flex-direction: column; }
+.tela-login__conteudo { flex: 1; width: 100%; max-width: 420px; margin: 0 auto; padding: var(--space-12) var(--space-4) var(--space-8); display: flex; flex-direction: column; align-items: stretch; gap: var(--space-6); }
+.tela-login__logo { align-self: center; height: 44px; width: auto; }
+.tela-login__card { box-shadow: var(--shadow-sm); }
+.tela-login__form { display: flex; flex-direction: column; gap: var(--space-5); padding: var(--space-8) var(--space-6); }
+.tela-login__titulo { margin: 0 0 var(--space-1); font: 700 24px/32px var(--font-sans); color: var(--text-strong); }
+
+.tela-senha { position: relative; display: flex; align-items: center; }
+.tela-senha .gn-input { padding-right: 96px; }
+.tela-senha__ver { position: absolute; right: var(--space-1); }
+
+.tela-login__teste { align-items: flex-start; }
+.tela-contas { display: flex; flex-direction: column; gap: var(--space-2); margin: var(--space-2) 0 0; }
+.tela-contas dt { font: 600 13px/18px var(--font-sans); color: var(--text-strong); }
+.tela-contas dd { margin: 0; color: var(--text-default); }
+
+.tela-login__rodape { padding: var(--space-5) var(--space-4); text-align: center; font: 500 12px/16px var(--font-sans); color: var(--text-muted); }

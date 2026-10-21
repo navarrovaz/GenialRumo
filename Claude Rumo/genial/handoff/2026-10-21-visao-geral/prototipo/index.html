@@ -1,0 +1,136 @@
+<!doctype html>
+<!--
+  Tela: Visão geral (id: visao-geral) · Perfil: colaborador
+  Fonte: docs/modulos/reconhecimento/especificacao.md (3.1, 5.3, 8, 9, 10) e telas-previstas.md
+
+  Estados (?estado=<nome>):
+    padrao           ciclo de outubro em andamento, ranking do mês e evolução de 6 meses
+    escolher-avatar  diálogo de escolha de avatar aberto
+    doze-meses       evolução de 12 meses
+    tabela           evolução mostrada como tabela
+    primeiro-acesso  quem ainda não participou do programa
+    carregando       esqueleto dos indicadores e do gráfico
+    erro             falha ao carregar
+    sem-permissao    sem acesso ao módulo
+
+  Regras usadas (detalhes em questoes-abertas.md):
+    Pedido do dono do produto (21/10/2026): pessoas em primeiro plano (ranking do mês com pódio e participantes), ciclo com
+    menos destaque e avatares ilustrados que a pessoa escolhe (cartela do design system).
+    CONFIRMADA  Visão geral = saldos, posição e evolução de 6 e 12 meses (Q-telas-menu); saldo do mês "em apuração"
+                e histórico só com ciclos homologados (Q-saldos); ranking provisório visível (Q-ranking); calendário do
+                ciclo (esp. 9); Destaque do Mês pode repetir (Q-elegibilidade); pendentes (esp. 8)
+  Status: Validada pelo dono do produto em 21/10/2026.
+    CONFIRMADA  etapa atual do ciclo calculada pela data de hoje e pelo calendário configurado pelo RH
+  Trechos que simulam o backend estão marcados com // SIMULAÇÃO em tela.js.
+  Dados fictícios.
+-->
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Visão geral do Reconhecimento — Genial</title>
+  <link rel="icon" href="design-system/assets/logos/genial-favicon-48.png">
+  <link rel="stylesheet" href="design-system/tokens.css">
+  <link rel="stylesheet" href="design-system/components/bundle.css">
+  <link rel="stylesheet" href="./tela.css">
+</head>
+<body>
+<div class="gn gn-shell">
+
+  <aside class="gn-sidebar" aria-label="Menu principal">
+    <div class="gn-sidebar__brand"><img src="design-system/assets/logos/genial-logo.png" alt="Genial"></div>
+    <nav class="gn-sidebar__nav">
+      <div class="gn-nav-section">
+        <span class="gn-nav-section__label">INÍCIO</span>
+        <a class="gn-nav-item" href="#"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span>Página inicial</span></a>
+      </div>
+      <div class="gn-nav-section">
+        <span class="gn-nav-section__label">MEU PONTO</span>
+        <a class="gn-nav-item" href="#"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 10a2 2 0 0 0-2 2c0 1.02-.1 2.51-.26 4"/><path d="M14 13.12c0 2.38 0 6.38-1 8.88"/><path d="M17.29 21.02c.12-.6.43-2.3.5-3.02"/><path d="M2 12a10 10 0 0 1 18-6"/><path d="M2 16h.01"/><path d="M21.8 16c.2-2 .131-5.354 0-6"/><path d="M5 19.5C5.5 18 6 15 6 12a6 6 0 0 1 .34-2"/><path d="M8.65 22c.21-.66.45-1.32.57-2"/><path d="M9 6.8a6 6 0 0 1 9 5.2v2"/></svg><span>Registrar ponto</span></a>
+        <a class="gn-nav-item" href="#"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 7.5V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h3.5"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h5"/><path d="M17.5 17.5 16 16.3V14"/><circle cx="16" cy="16" r="6"/></svg><span>Horas lançadas</span></a>
+      </div>
+      <div class="gn-nav-section">
+        <span class="gn-nav-section__label">RECONHECIMENTO</span>
+        <a class="gn-nav-item" href="#" aria-current="page"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg><span>Visão geral</span></a>
+        <a class="gn-nav-item" href="../cadastrar-entrega/index.html"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg><span>Cadastrar entrega</span></a>
+        <a class="gn-nav-item" href="../minhas-entregas/index.html"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/><path d="M13 6h8"/><path d="M13 12h8"/><path d="M13 18h8"/></svg><span>Minhas entregas</span><span class="gn-badge gn-badge--count" aria-label="2 precisam de você">2</span></a>
+        <a class="gn-nav-item" href="../ranking-mensal/index.html"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"/><circle cx="12" cy="8" r="6"/></svg><span>Ranking mensal</span></a>
+        <a class="gn-nav-item" href="../historico-reconhecimentos/index.html"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg><span>Histórico de reconhecimentos</span></a>
+      </div>
+      <div class="gn-nav-section">
+        <span class="gn-nav-section__label">AJUDA</span>
+        <a class="gn-nav-item" href="#"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg><span>Tutoriais</span></a>
+        <a class="gn-nav-item" href="#"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg><span>Falar com o suporte</span></a>
+      </div>
+    </nav>
+    <div class="gn-sidebar__footer">
+      <div class="gn-user"><span class="gn-avatar" aria-hidden="true">AR</span><div style="min-width:0"><div class="gn-user__name">Ana Ribeiro</div><div class="gn-user__role">Desenvolvedora · Exemplo</div></div></div>
+    </div>
+  </aside>
+
+  <div class="gn-main">
+    <header class="gn-topbar">
+      <nav class="gn-breadcrumb" aria-label="Você está em"><span>Reconhecimento</span><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg><span aria-current="page">Visão geral</span></nav>
+      <div class="gn-topbar__actions">
+        <button class="gn-iconbtn" type="button" aria-label="Ajuda"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg></button>
+        <button class="gn-iconbtn" type="button" aria-label="Notificações"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></button>
+        <span class="gn-avatar gn-avatar--sm" aria-hidden="true">AR</span>
+      </div>
+    </header>
+
+    <main class="gn-page" id="conteudo">
+      <div class="gn-page__head">
+        <div class="tela-saudacao">
+          <button class="tela-meu-avatar" type="button" id="btn-avatar" aria-haspopup="dialog" aria-label="Trocar seu avatar">
+            <span class="gn-avatar gn-avatar--img gn-avatar--lg" id="meu-avatar"><img src="design-system/assets/avatares/avatar-02.svg" alt=""></span>
+            <span class="tela-meu-avatar__editar" aria-hidden="true"><svg class="gn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg></span>
+          </button>
+          <div>
+            <h1 class="gn-page__title">Visão geral</h1>
+            <p class="gn-page__desc">Boa tarde, Ana. Este é o seu Reconhecimento em outubro de 2026.</p>
+          </div>
+        </div>
+        <a class="gn-btn gn-btn--primary" id="btn-cadastrar" href="../cadastrar-entrega/index.html"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>Cadastrar entrega</a>
+      </div>
+
+      <!-- Conteúdo montado por tela.js (render) -->
+      <div id="area" class="gn-stack tela-area"></div>
+    </main>
+  </div>
+</div>
+
+<!-- Diálogo: escolher avatar (componente AvatarPicker) -->
+<div class="gn gn-scrim tela-scrim" id="dlg-avatar" hidden>
+  <form class="gn-dialog tela-dialog-avatar" role="dialog" aria-modal="true" aria-labelledby="dlg-avatar-t" aria-describedby="dlg-avatar-d" id="form-avatar">
+    <div class="gn-dialog__header">
+      <div>
+        <h2 class="gn-dialog__title" id="dlg-avatar-t">Escolher avatar</h2>
+        <p class="gn-dialog__desc" id="dlg-avatar-d">Ele aparece para os colegas no ranking e em todo o Genial. Você pode trocar quando quiser.</p>
+      </div>
+    </div>
+    <div class="gn-dialog__body">
+      <fieldset class="gn-avatar-picker" aria-label="Avatares disponíveis">
+        <label class="gn-avatar-option"><input type="radio" name="avatar" value="1" aria-label="Avatar 1"><span class="gn-avatar gn-avatar--img"><img src="design-system/assets/avatares/avatar-01.svg" alt=""></span><span class="gn-avatar-option__check" aria-hidden="true"><svg class="gn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></label>
+        <label class="gn-avatar-option"><input type="radio" name="avatar" value="2" aria-label="Avatar 2"><span class="gn-avatar gn-avatar--img"><img src="design-system/assets/avatares/avatar-02.svg" alt=""></span><span class="gn-avatar-option__check" aria-hidden="true"><svg class="gn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></label>
+        <label class="gn-avatar-option"><input type="radio" name="avatar" value="3" aria-label="Avatar 3"><span class="gn-avatar gn-avatar--img"><img src="design-system/assets/avatares/avatar-03.svg" alt=""></span><span class="gn-avatar-option__check" aria-hidden="true"><svg class="gn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></label>
+        <label class="gn-avatar-option"><input type="radio" name="avatar" value="4" aria-label="Avatar 4"><span class="gn-avatar gn-avatar--img"><img src="design-system/assets/avatares/avatar-04.svg" alt=""></span><span class="gn-avatar-option__check" aria-hidden="true"><svg class="gn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></label>
+        <label class="gn-avatar-option"><input type="radio" name="avatar" value="5" aria-label="Avatar 5"><span class="gn-avatar gn-avatar--img"><img src="design-system/assets/avatares/avatar-05.svg" alt=""></span><span class="gn-avatar-option__check" aria-hidden="true"><svg class="gn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></label>
+        <label class="gn-avatar-option"><input type="radio" name="avatar" value="6" aria-label="Avatar 6"><span class="gn-avatar gn-avatar--img"><img src="design-system/assets/avatares/avatar-06.svg" alt=""></span><span class="gn-avatar-option__check" aria-hidden="true"><svg class="gn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></label>
+        <label class="gn-avatar-option"><input type="radio" name="avatar" value="7" aria-label="Avatar 7"><span class="gn-avatar gn-avatar--img"><img src="design-system/assets/avatares/avatar-07.svg" alt=""></span><span class="gn-avatar-option__check" aria-hidden="true"><svg class="gn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></label>
+        <label class="gn-avatar-option"><input type="radio" name="avatar" value="8" aria-label="Avatar 8"><span class="gn-avatar gn-avatar--img"><img src="design-system/assets/avatares/avatar-08.svg" alt=""></span><span class="gn-avatar-option__check" aria-hidden="true"><svg class="gn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></label>
+        <label class="gn-avatar-option"><input type="radio" name="avatar" value="9" aria-label="Avatar 9"><span class="gn-avatar gn-avatar--img"><img src="design-system/assets/avatares/avatar-09.svg" alt=""></span><span class="gn-avatar-option__check" aria-hidden="true"><svg class="gn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></label>
+        <label class="gn-avatar-option"><input type="radio" name="avatar" value="10" aria-label="Avatar 10"><span class="gn-avatar gn-avatar--img"><img src="design-system/assets/avatares/avatar-10.svg" alt=""></span><span class="gn-avatar-option__check" aria-hidden="true"><svg class="gn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></label>
+        <label class="gn-avatar-option"><input type="radio" name="avatar" value="11" aria-label="Avatar 11"><span class="gn-avatar gn-avatar--img"><img src="design-system/assets/avatares/avatar-11.svg" alt=""></span><span class="gn-avatar-option__check" aria-hidden="true"><svg class="gn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></label>
+        <label class="gn-avatar-option"><input type="radio" name="avatar" value="12" aria-label="Avatar 12"><span class="gn-avatar gn-avatar--img"><img src="design-system/assets/avatares/avatar-12.svg" alt=""></span><span class="gn-avatar-option__check" aria-hidden="true"><svg class="gn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></label>
+      </fieldset>
+    </div>
+    <div class="gn-dialog__footer">
+      <button class="gn-btn gn-btn--secondary" type="button" data-fechar>Cancelar</button>
+      <button class="gn-btn gn-btn--primary" type="submit">Salvar avatar</button>
+    </div>
+  </form>
+</div>
+
+<script src="./tela.js"></script>
+</body>
+</html>

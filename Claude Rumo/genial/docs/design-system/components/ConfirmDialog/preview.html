@@ -1,0 +1,19 @@
+<!-- @dsCard group="Feedback" height=520 subtitle="Confirmação de ação irreversível com resumo" -->
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><link rel="stylesheet" href="../../tokens.css"><link rel="stylesheet" href="../bundle.css"><title>ConfirmDialog</title>
+<style>html,body{margin:0;background:var(--bg-page)} .pv{padding:24px} </style></head>
+<body>
+<div class="gn gn-scrim" style="min-height:520px">
+  <div class="gn-dialog" role="dialog" aria-modal="true" aria-labelledby="dlg-t" aria-describedby="dlg-d">
+    <div class="gn-dialog__header"><span class="gn-dialog__icon"><svg class="gn-icon" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z" /> <path d="m21.854 2.147-10.94 10.939" /> </svg></span><div><h2 class="gn-dialog__title" id="dlg-t">Enviar outubro para o RH?</h2><p class="gn-dialog__desc" id="dlg-d">Depois do envio, só o RH pode alterar as marcações deste mês.</p></div></div>
+    <div class="gn-dialog__body">
+      <dl class="gn-dialog__summary" style="margin:0"><div class="gn-readout"><dt>Lançadas</dt><dd class="gn-num">160:12</dd></div><div class="gn-readout"><dt>Esperadas</dt><dd class="gn-num">168:00</dd></div><div class="gn-readout"><dt>Saldo</dt><dd><span class="gn-delta gn-delta--neg"><svg class="gn-icon" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <polyline points="22 17 13.5 8.5 8.5 13.5 2 7" /> <polyline points="16 17 22 17 22 11" /> </svg>−07:48</span></dd></div></dl>
+      <div class="gn-alert gn-alert--attention"><svg class="gn-icon" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /> </svg><div class="gn-alert__body"><span class="gn-alert__text">1 dia ainda tem marcação sem par (08/10).</span></div></div>
+      <label class="gn-check" for="dlg-ok"><input type="checkbox" id="dlg-ok">Conferi minhas marcações e confirmo o envio.</label>
+    </div>
+    <div class="gn-dialog__footer"><button class="gn-btn gn-btn--secondary" type="button">Revisar</button><button class="gn-btn gn-btn--primary" type="button"><svg class="gn-icon" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z" /> <path d="m21.854 2.147-10.94 10.939" /> </svg>Enviar para o RH</button></div>
+  </div>
+</div>
+</body>
+</html>

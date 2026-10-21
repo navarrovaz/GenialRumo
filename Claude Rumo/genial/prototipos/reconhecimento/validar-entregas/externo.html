@@ -1,0 +1,126 @@
+<!doctype html>
+<!--
+  Tela: Validação de entregas, versão externa (id: validar-entregas/externo) · Perfil: representante do cliente
+  Aberta pelo link seguro do e-mail. Sem menu e sem acesso ao resto do Genial (esp. 6).
+
+  Estados (?estado=<nome>):
+    padrao          entrega aberta para decisão
+    confirmar       diálogo de confirmação (toda decisão encerra o link)
+    sem-comentario  tentativa de solicitar ajustes sem comentário
+    decidida        confirmação depois de enviar a decisão
+    link-usado      o link já foi usado
+    link-expirado   o prazo de validação terminou
+    erro            falha ao carregar
+  Vindo do e-mail: ?decisao=<aprovar|ajustes|recusar> abre a página com a decisão escolhida (sem decidir).
+
+  Regras usadas (detalhes em questoes-abertas.md):
+    CONFIRMADA  link seguro de uso único, válido até o fim do prazo de validação (05/11), enviado só para o e-mail
+                informado pelo colaborador (Q-validador-externo); decisões Aprovar · Solicitar ajustes · Recusar;
+                recusar exige justificativa; sem acesso às demais funcionalidades do Genial
+                comentário obrigatório para solicitar ajustes; toda decisão pede confirmação, porque o link fecha
+  Status: Validada pelo dono do produto em 21/10/2026.
+  Trechos que simulam o backend estão marcados com // SIMULAÇÃO em externo.js.
+  Dados fictícios.
+-->
+<html lang="pt-BR" data-perfil="publico">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Confirmar entrega — Genial</title>
+  <link rel="icon" href="../../../docs/design-system/assets/logos/genial-favicon-48.png">
+  <link rel="stylesheet" href="../../../docs/design-system/tokens.css">
+  <link rel="stylesheet" href="../../../docs/design-system/components/bundle.css">
+  <link rel="stylesheet" href="./tela.css">
+  <script src="../../_comum/sessao.js"></script>
+</head>
+<body>
+<div class="gn tela-ext">
+  <header class="tela-ext__topo">
+    <img src="../../../docs/design-system/assets/logos/genial-logo.png" alt="Genial, Rumo Soluções">
+    <span class="tela-ext__seguro"><svg class="gn-icon gn-icon--sm" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span>Link seguro · válido até 05/11 · uso único</span></span>
+  </header>
+
+  <main class="tela-ext__conteudo" id="conteudo">
+    <!-- Decisão aberta -->
+    <div id="area-decisao" class="gn-stack tela-area">
+      <div>
+        <h1 class="gn-page__title">Ana Ribeiro pediu que você confirme uma entrega</h1>
+        <p class="gn-page__desc">Ana é desenvolvedora da Rumo Soluções e trabalhou no seu projeto. Ela indicou você para confirmar o que foi feito e o resultado. Leva cerca de 2 minutos.</p>
+      </div>
+      <dl class="gn-row tela-ciclo">
+        <div class="gn-readout"><dt>Você está respondendo como</dt><dd>Marcos Teixeira</dd></div>
+        <div class="gn-readout"><dt>Responda até</dt><dd class="gn-num">05/11</dd></div>
+      </dl>
+
+      <div id="mensagens" class="gn-stack" tabindex="-1"></div>
+
+      <section class="gn-card" aria-labelledby="t-entrega">
+        <div class="gn-card__body tela-detalhe__corpo">
+          <div>
+            <h2 class="tela-detalhe__titulo" id="t-entrega">Treinamento de Git para a equipe do cliente</h2>
+            <p class="gn-help tela-sem-margem">Enviada por Ana Ribeiro em 20/10</p>
+          </div>
+          <dl class="tela-conteudo">
+            <div><dt>O que foi entregue</dt><dd>Preparei e conduzi um treinamento de Git em 3 encontros para a equipe de desenvolvimento do cliente, com exercícios no repositório do próprio projeto.</dd></div>
+            <div class="tela-conteudo__par"><div><dt>Em quanto tempo</dt><dd>2 semanas</dd></div><div><dt>Como a entrega começou</dt><dd>Foi uma iniciativa dela</dd></div></div>
+            <div><dt>Resultado informado</dt><dd>Oito pessoas treinadas. Os conflitos de merge que travavam as entregas caíram de cerca de 6 para 1 por sprint.</dd></div>
+            <div><dt>Evidências</dt><dd>
+              <ul class="gn-attach-list">
+                <li class="gn-attach"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg><div class="gn-attach__text"><a class="gn-attach__name" href="#">https://exemplo.com/material-treinamento-git</a><span class="gn-attach__meta">Link</span></div></li>
+              </ul>
+            </dd></div>
+          </dl>
+        </div>
+
+        <form class="tela-decisao" id="form-decisao" novalidate aria-labelledby="t-decisao">
+          <h3 class="tela-subtitulo" id="t-decisao">Sua resposta</h3>
+          <ul class="tela-guia">
+            <li><svg class="gn-icon gn-icon--sm" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>A entrega aconteceu como Ana descreveu?</li>
+            <li><svg class="gn-icon gn-icon--sm" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>O resultado foi relevante para o seu projeto, pelo impacto e pelo esforço?</li>
+            <li><svg class="gn-icon gn-icon--sm" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>Você responde uma vez. Depois de enviar, este link deixa de funcionar.</li>
+          </ul>
+          <div class="gn-field" data-campo="comentario">
+            <label class="gn-label" for="f-comentario">Comentário para Ana</label>
+            <textarea class="gn-input gn-textarea" id="f-comentario" rows="3" maxlength="1000" aria-describedby="f-comentario-help"></textarea>
+            <div class="gn-help-row"><span class="gn-help" id="f-comentario-help">Opcional para aprovar. Obrigatório para solicitar ajustes ou recusar. Ana vê este comentário.</span><span class="gn-counter" id="f-comentario-cont" aria-hidden="true">0/1000</span></div>
+          </div>
+          <div class="tela-decisao__acoes">
+            <button class="gn-btn gn-btn--ghost tela-btn-recusar" type="button" data-decisao="recusar"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>Recusar</button>
+            <button class="gn-btn gn-btn--secondary" type="button" data-decisao="ajustes"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M12 7v2"/><path d="M12 13h.01"/></svg>Solicitar ajustes</button>
+            <button class="gn-btn gn-btn--primary" type="button" data-decisao="aprovar"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>Aprovar entrega</button>
+          </div>
+        </form>
+      </section>
+    </div>
+
+    <!-- Resultado, link usado, link expirado, erro -->
+    <section class="gn-card" id="area-estado" hidden></section>
+  </main>
+
+  <footer class="tela-ext__rodape">Genial · Rumo Soluções. Você recebeu este link porque Ana Ribeiro informou o seu e-mail. Não encaminhe.</footer>
+</div>
+
+<!-- ConfirmDialog: toda decisão encerra o link -->
+<div class="gn gn-scrim tela-scrim" id="dlg-confirmar" hidden>
+  <div class="gn-dialog" role="dialog" aria-modal="true" aria-labelledby="dlg-t" aria-describedby="dlg-d">
+    <div class="gn-dialog__header">
+      <span class="gn-dialog__icon" id="dlg-icone"></span>
+      <div>
+        <h2 class="gn-dialog__title" id="dlg-t">Aprovar esta entrega?</h2>
+        <p class="gn-dialog__desc" id="dlg-d">Sua resposta vai para Ana Ribeiro e este link deixa de funcionar.</p>
+      </div>
+    </div>
+    <div class="gn-dialog__body" id="dlg-corpo">
+      <figure class="tela-comentario"><blockquote id="dlg-texto"></blockquote><figcaption>Seu comentário</figcaption></figure>
+    </div>
+    <div class="gn-dialog__footer">
+      <button class="gn-btn gn-btn--secondary" type="button" data-fechar>Voltar</button>
+      <button class="gn-btn gn-btn--primary" type="button" id="btn-confirmar">Aprovar entrega</button>
+    </div>
+  </div>
+</div>
+
+<script src="./externo.js"></script>
+</body>
+</html>

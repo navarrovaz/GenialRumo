@@ -1,0 +1,77 @@
+/* Validação de entregas — layout das versões interna (index.html) e externa (externo.html). Só var(--token).
+   Candidato ao design system: item selecionável da fila (.tela-fila__item). */
+
+html, body { margin: 0; background: var(--bg-page); }
+.gn-shell { min-height: 100vh; }
+[hidden] { display: none !important; }
+#mensagens:focus { outline: none; }
+#mensagens:empty { display: none; }
+.tela-area { gap: var(--space-5); }
+.tela-ciclo { gap: var(--space-6); margin: 0; }
+.tela-min0 { min-width: 0; }
+.tela-sem-margem { margin: 0; }
+.gn-segmented { align-self: flex-start; }
+.gn-segmented .gn-num { margin-left: var(--space-1); color: var(--text-muted); }
+
+/* Grade: fila + entrega aberta */
+.tela-grid { display: grid; grid-template-columns: 340px minmax(0, 1fr); gap: var(--space-6); align-items: start; }
+@media (max-width: 1100px) { .tela-grid { grid-template-columns: minmax(0, 1fr); } }
+
+/* Fila */
+.tela-fila-card { position: sticky; top: var(--space-6); }
+.tela-fila { list-style: none; margin: 0; padding: var(--space-2); display: flex; flex-direction: column; gap: 2px; }
+.tela-fila__item { display: flex; align-items: flex-start; gap: var(--space-3); width: 100%; padding: var(--space-3); border: 1px solid transparent; border-radius: var(--radius-md); background: transparent; color: var(--text-default); font: inherit; text-align: left; cursor: pointer; }
+.tela-fila__item:hover { background: var(--bg-sunken); }
+.tela-fila__item[aria-current="true"] { background: var(--bg-selected); border-color: var(--genial-200); }
+.tela-fila__texto { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.tela-fila__nome { font: 600 13px/18px var(--font-sans); color: var(--text-muted); }
+.tela-fila__titulo { font: 600 14px/20px var(--font-sans); color: var(--text-strong); }
+.tela-fila__item[aria-current="true"] .tela-fila__titulo { color: var(--text-selected); }
+.tela-fila__meta { font: 500 12px/16px var(--font-sans); color: var(--text-muted); }
+.tela-fila__badge { flex: none; }
+
+/* Entrega aberta */
+.tela-pessoa { padding: 0; }
+.tela-detalhe__corpo { display: flex; flex-direction: column; gap: var(--space-5); }
+.tela-detalhe__titulo { margin: 0 0 var(--space-1); font: 700 20px/28px var(--font-sans); color: var(--text-strong); }
+.tela-detalhe__titulo:focus { outline: none; }
+.tela-conteudo { display: flex; flex-direction: column; gap: var(--space-5); margin: 0; }
+.tela-conteudo dt { margin-bottom: var(--space-1); font: 600 13px/18px var(--font-sans); color: var(--text-muted); }
+.tela-conteudo dd { margin: 0; color: var(--text-strong); }
+.tela-conteudo__par { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-5); }
+
+/* Decisão */
+.tela-decisao { display: flex; flex-direction: column; gap: var(--space-4); padding: var(--space-5); border-top: 1px solid var(--border-default); background: var(--bg-page); border-radius: 0 0 var(--radius-lg) var(--radius-lg); }
+.tela-subtitulo { margin: 0; font: 600 15px/22px var(--font-sans); color: var(--text-strong); }
+.tela-guia { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-2); }
+.tela-guia li { display: flex; gap: var(--space-2); align-items: flex-start; color: var(--text-default); }
+.tela-guia .gn-icon { margin-top: 2px; color: var(--text-muted); }
+.tela-decisao__acoes { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
+.tela-btn-recusar { margin-right: auto; color: var(--negative); }
+.tela-btn-recusar:hover { background: var(--negative-bg); color: var(--negative-text); }
+.gn-field--error .gn-counter { color: var(--text-muted); }
+
+/* Decididas */
+.tela-pessoa-celula { display: inline-flex; align-items: center; gap: var(--space-2); }
+.gn-table td.tela-col-titulo { white-space: normal; }
+
+/* Diálogo */
+.tela-scrim { position: fixed; inset: 0; z-index: 20; }
+.tela-dialog__icon--neg { background: var(--negative-bg); color: var(--negative); }
+.tela-comentario { margin: 0; padding: var(--space-3) var(--space-4); border-radius: var(--radius-md); background: var(--bg-sunken); }
+.tela-comentario blockquote { margin: 0; color: var(--text-strong); }
+.tela-comentario figcaption { margin-top: var(--space-2); font: 500 12px/16px var(--font-sans); color: var(--text-muted); }
+
+/* Versão externa (link seguro, sem menu) */
+.tela-ext { min-height: 100vh; display: flex; flex-direction: column; background: var(--bg-page); }
+.tela-ext__topo { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); height: var(--topbar-height); padding: 0 var(--space-8); background: var(--bg-surface); border-bottom: 1px solid var(--border-default); }
+.tela-ext__topo img { height: 30px; width: auto; }
+.tela-ext__seguro { display: inline-flex; align-items: center; gap: var(--space-2); font: 500 13px/18px var(--font-sans); color: var(--text-muted); }
+.tela-ext__seguro .gn-icon { color: var(--positive); }
+.tela-ext__conteudo { width: 100%; max-width: 800px; margin: 0 auto; padding: var(--space-8) var(--space-4) var(--space-12); display: flex; flex-direction: column; gap: var(--space-6); }
+.tela-ext__rodape { margin-top: auto; padding: var(--space-5) var(--space-4); text-align: center; font: 500 12px/16px var(--font-sans); color: var(--text-muted); }
+@media (max-width: 640px) {
+  .tela-ext__topo { padding: 0 var(--space-4); }
+  .tela-ext__seguro span { display: none; }
+  .tela-conteudo__par { grid-template-columns: minmax(0, 1fr); }
+}

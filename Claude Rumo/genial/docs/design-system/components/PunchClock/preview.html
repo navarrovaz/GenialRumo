@@ -1,0 +1,21 @@
+<!-- @dsCard group="Ponto" height=640 width=420 subtitle="Registro de ponto: relógio, botão e marcações do dia" -->
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><link rel="stylesheet" href="../../tokens.css"><link rel="stylesheet" href="../bundle.css"><title>PunchClock</title>
+<style>html,body{margin:0;background:var(--bg-page)} .pv{padding:24px} </style></head>
+<body>
+<div class="gn pv" style="max-width:420px"><section class="gn-card gn-card--app gn-punch" aria-label="Registrar ponto">
+  <div class="gn-punch__date"><button class="gn-iconbtn" type="button" aria-label="Dia anterior"><svg class="gn-icon" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="m15 18-6-6 6-6" /> </svg></button><div><strong>Quarta, 21 de outubro</strong><span>Giovanni Melo · Rumo Matriz</span></div><button class="gn-iconbtn" type="button" aria-label="Próximo dia" aria-disabled="true" style="opacity:.4"><svg class="gn-icon" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="m9 18 6-6-6-6" /> </svg></button></div>
+  <div><div class="gn-punch__clock" aria-live="off">12:42:21</div><div class="gn-punch__tz">Horário oficial de Brasília</div></div>
+  <button class="gn-punch__btn" type="button"><svg class="gn-icon" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M12 10a2 2 0 0 0-2 2c0 1.02-.1 2.51-.26 4" /> <path d="M14 13.12c0 2.38 0 6.38-1 8.88" /> <path d="M17.29 21.02c.12-.6.43-2.3.5-3.02" /> <path d="M2 12a10 10 0 0 1 18-6" /> <path d="M2 16h.01" /> <path d="M21.8 16c.2-2 .131-5.354 0-6" /> <path d="M5 19.5C5.5 18 6 15 6 12a6 6 0 0 1 .34-2" /> <path d="M8.65 22c.21-.66.45-1.32.57-2" /> <path d="M9 6.8a6 6 0 0 1 9 5.2v2" /> </svg>Registrar</button>
+  <div class="gn-punch__next">Próxima marcação: <b>Saída para intervalo</b></div>
+  <span class="gn-punch__loc"><svg class="gn-icon" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" /> <circle cx="12" cy="10" r="3" /> </svg>Localização confirmada · Rumo Matriz</span>
+  <div class="gn-marks">
+    <div class="gn-mark"><span class="gn-mark__label">Entrada</span><span class="gn-mark__time"><svg class="gn-icon" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M20 6 9 17l-5-5" /> </svg>09:34</span></div>
+    <div class="gn-mark gn-mark--next"><span class="gn-mark__label">Intervalo</span><span class="gn-mark__time">13:34</span></div>
+    <div class="gn-mark gn-mark--pending"><span class="gn-mark__label">Retorno</span><span class="gn-mark__time">14:34</span></div>
+    <div class="gn-mark gn-mark--pending"><span class="gn-mark__label">Saída</span><span class="gn-mark__time">18:34</span></div>
+  </div>
+</section></div>
+</body>
+</html>

@@ -1,0 +1,41 @@
+/* Minhas entregas — layout da tela. Só var(--token). */
+
+html, body { margin: 0; background: var(--bg-page); }
+.gn-shell { min-height: 100vh; }
+[hidden] { display: none !important; }
+#mensagens:focus { outline: none; }
+#mensagens:empty { display: none; }
+.tela-area { gap: var(--space-6); }
+
+/* Filtros */
+.tela-filtros { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3) var(--space-4); }
+.tela-filtros__ciclo { width: 280px; }
+.tela-filtros__grupos { gap: var(--space-2); }
+.gn-chip .gn-num { color: var(--text-muted); font-weight: 500; }
+.gn-chip[aria-pressed="true"] .gn-num { color: var(--text-selected); }
+
+/* Tabela */
+.tela-th-nota { text-transform: none; letter-spacing: 0; font-weight: 500; }
+.gn-table td.tela-col-entrega { white-space: normal; padding-top: var(--space-3); padding-bottom: var(--space-3); min-width: 280px; }
+.tela-entrega__titulo { display: block; font-weight: 600; color: var(--link); text-decoration: none; }
+.tela-entrega__titulo:hover { text-decoration: underline; }
+.tela-entrega__meta { display: block; margin-top: 2px; font-size: 12px; line-height: 16px; color: var(--text-muted); }
+.tela-pontuacao { font-weight: 700; color: var(--text-strong); font-variant-numeric: tabular-nums; }
+.gn-table td.tela-col-acoes { width: 168px; text-align: right; }
+.tela-col-acoes > * + * { margin-left: var(--space-1); }
+.tela-btn-excluir { color: var(--negative); }
+.tela-btn-excluir:hover { background: var(--negative-bg); color: var(--negative-text); }
+.tela-rodape-lista { margin: calc(var(--space-2) * -1) 0 0; }
+
+/* Carregando */
+.tela-esqueleto { display: inline-block; width: 120px; height: 12px; border-radius: var(--radius-full); background: var(--bg-sunken); vertical-align: middle; }
+.tela-esqueleto--lg { width: 260px; }
+.tela-esqueleto--sm { width: 32px; }
+
+/* Diálogo */
+.tela-scrim { position: fixed; inset: 0; z-index: 20; }
+.tela-dialog__icon--neg { background: var(--negative-bg); color: var(--negative); }
+
+@media (max-width: 900px) {
+  .tela-filtros__ciclo { width: 100%; }
+}

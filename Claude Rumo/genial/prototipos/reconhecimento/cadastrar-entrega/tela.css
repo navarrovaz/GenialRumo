@@ -1,0 +1,62 @@
+/* Cadastrar entrega — layout da tela. Só var(--token).
+   Componentes (textarea, contador, AttachmentList, Steps, MeterList) vêm do bundle.css. */
+
+html, body { margin: 0; background: var(--bg-page); }
+.gn-shell { min-height: 100vh; }
+[hidden] { display: none !important; }
+
+/* Cabeçalho e mensagens */
+.tela-ciclo { gap: var(--space-6); margin: 0; }
+#mensagens:focus { outline: none; }
+#mensagens:empty { display: none; }
+.tela-erros { margin: var(--space-1) 0 0; padding-left: var(--space-5); }
+.tela-erros a { color: var(--link); font-weight: 600; }
+
+/* Grade: formulário + apoio */
+.tela-grid { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: var(--space-6); align-items: start; }
+.tela-apoio { position: sticky; top: var(--space-6); }
+@media (max-width: 1366px) { .tela-grid { grid-template-columns: minmax(0, 1fr) 300px; } }
+@media (max-width: 1180px) {
+  .tela-grid { grid-template-columns: minmax(0, 1fr); }
+  .tela-apoio { position: static; }
+}
+
+/* Formulário */
+.tela-form { display: flex; flex-direction: column; gap: var(--space-6); max-width: 720px; }
+.tela-secao { display: flex; flex-direction: column; gap: var(--space-4); min-width: 0; margin: 0; padding: 0; border: 0; }
+.tela-secao + .tela-secao { padding-top: var(--space-6); border-top: 1px solid var(--border-subtle); }
+.tela-legenda { float: left; width: 100%; padding: 0; margin: 0; color: var(--text-muted); }
+.tela-grupo { margin: 0; padding: 0; border: 0; }
+.tela-grupo > legend { padding: 0; margin-bottom: 6px; }
+.tela-sem-margem { margin: 0; }
+.gn-field--error .gn-counter { color: var(--text-muted); }
+
+.tela-tempo { display: flex; gap: var(--space-2); }
+.tela-tempo .gn-input { width: 96px; }
+.tela-tempo .gn-select { width: 160px; }
+.tela-campo-medio { max-width: 360px; }
+.tela-opcoes { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-6); }
+
+.tela-externo { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-4); }
+.tela-externo__help { grid-column: 1 / -1; margin-top: calc(var(--space-2) * -1); }
+@media (max-width: 640px) { .tela-externo { grid-template-columns: minmax(0, 1fr); } }
+
+.tela-link { display: flex; gap: var(--space-2); max-width: 560px; }
+
+/* Rodapé do formulário */
+.tela-footer { flex-wrap: wrap; align-items: center; }
+.tela-footer__excluir { margin-right: auto; color: var(--negative); }
+.tela-footer__excluir:hover { background: var(--negative-bg); color: var(--negative-text); }
+
+/* Coluna de apoio */
+.tela-dicas { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-3); }
+.tela-dicas li { display: flex; gap: var(--space-2); align-items: flex-start; }
+.tela-dicas .gn-icon { margin-top: 2px; color: var(--positive); }
+
+/* Diálogo */
+.tela-scrim { position: fixed; inset: 0; z-index: 20; }
+.tela-dialog__icon--neg { background: var(--negative-bg); color: var(--negative); }
+
+@media (max-width: 900px) {
+  .tela-ciclo { gap: var(--space-4); }
+}

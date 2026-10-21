@@ -1,0 +1,113 @@
+/* Genial Design System — generated from tokens.json */
+:root, [data-theme="light"] {
+  --genial-50: #EFF8FF;
+  --genial-100: #DCF0FF;
+  --genial-200: #B8E1FE;
+  --genial-300: #8BD6F7;
+  --genial-400: #49B2F3;
+  --genial-500: #008FD2;
+  --genial-600: #0676AE;
+  --genial-700: #08618F;
+  --genial-800: #004D74;
+  --genial-900: #023753;
+  --neutral-0: #FFFFFF;
+  --neutral-25: #F8FAFD;
+  --neutral-50: #F1F5F9;
+  --neutral-100: #E5ECF2;
+  --neutral-200: #D8E1E9;
+  --neutral-300: #C1CCD6;
+  --neutral-400: #94A0AC;
+  --neutral-500: #677581;
+  --neutral-600: #4E5D69;
+  --neutral-700: #394753;
+  --neutral-800: #222F3B;
+  --neutral-900: #111C26;
+  --success-50: #EAFAEC;
+  --success-600: #01823A;
+  --success-700: #016B2E;
+  --danger-50: #FFF2F0;
+  --danger-600: #B24039;
+  --danger-700: #93332D;
+  --warning-50: #FFF3E6;
+  --warning-200: #F5CF9C;
+  --warning-600: #955E02;
+  --warning-700: #7A4C02;
+  --danger-200: #F6C3BD;
+  --success-200: #A9E5B5;
+  --control-border: #8693A0;
+  --overlay-scrim: rgba(17, 28, 38, 0.48);
+  --bg-page: var(--neutral-25);
+  --bg-surface: var(--neutral-0);
+  --bg-sunken: var(--neutral-50);
+  --bg-selected: var(--genial-50);
+  --bg-disabled: var(--neutral-50);
+  --border-subtle: var(--neutral-100);
+  --border-default: var(--neutral-200);
+  --border-control: var(--control-border);
+  --text-strong: var(--neutral-900);
+  --text-default: var(--neutral-800);
+  --text-muted: var(--neutral-600);
+  --text-placeholder: var(--neutral-500);
+  --text-disabled: var(--neutral-400);
+  --text-on-action: var(--neutral-0);
+  --brand: var(--genial-500);
+  --action: var(--genial-600);
+  --action-hover: var(--genial-700);
+  --action-pressed: var(--genial-800);
+  --link: var(--genial-600);
+  --text-selected: var(--genial-700);
+  --focus-ring: var(--genial-500);
+  --positive: var(--success-600);
+  --positive-bg: var(--success-50);
+  --positive-text: var(--success-700);
+  --negative: var(--danger-600);
+  --negative-bg: var(--danger-50);
+  --negative-text: var(--danger-700);
+  --attention: var(--warning-600);
+  --attention-bg: var(--warning-50);
+  --attention-text: var(--warning-700);
+  --day-weekend-bg: var(--neutral-50);
+  --day-holiday-bg: var(--warning-50);
+  --day-today-bg: var(--genial-50);
+  --shadow-xs: 0 1px 2px rgba(17, 28, 38, 0.05);
+  --shadow-sm: 0 2px 6px rgba(17, 28, 38, 0.07), 0 1px 2px rgba(17, 28, 38, 0.04);
+  --shadow-lg: 0 16px 40px rgba(17, 28, 38, 0.16), 0 2px 6px rgba(17, 28, 38, 0.06);
+  --shadow-action: 0 8px 20px rgba(6, 118, 174, 0.28);
+}
+:root {
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 999px;
+  --control-sm: 32px;
+  --control-md: 40px;
+  --control-lg: 48px;
+  --row-compact: 44px;
+  --row-comfortable: 56px;
+  --sidebar-width: 256px;
+  --topbar-height: 64px;
+  --tabbar-height: 64px;
+  --font-sans: "Plus Jakarta Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+.display-clock { font-family: var(--font-sans); font-size: 56px; line-height: 60px; font-weight: 700; letter-spacing: -0.02em; }
+.display { font-family: var(--font-sans); font-size: 32px; line-height: 40px; font-weight: 700; letter-spacing: -0.015em; }
+.title-lg { font-family: var(--font-sans); font-size: 24px; line-height: 32px; font-weight: 700; letter-spacing: -0.01em; }
+.title-md { font-family: var(--font-sans); font-size: 18px; line-height: 26px; font-weight: 700; }
+.title-sm { font-family: var(--font-sans); font-size: 15px; line-height: 22px; font-weight: 600; }
+.body-lg { font-family: var(--font-sans); font-size: 16px; line-height: 24px; font-weight: 400; }
+.body { font-family: var(--font-sans); font-size: 14px; line-height: 20px; font-weight: 400; }
+.body-strong { font-family: var(--font-sans); font-size: 14px; line-height: 20px; font-weight: 600; }
+.label { font-family: var(--font-sans); font-size: 13px; line-height: 18px; font-weight: 600; }
+.caption { font-family: var(--font-sans); font-size: 12px; line-height: 16px; font-weight: 500; }
+.overline { font-family: var(--font-sans); font-size: 11px; line-height: 16px; font-weight: 700; letter-spacing: 0.08em; }
+.num-kpi { font-family: var(--font-sans); font-size: 28px; line-height: 34px; font-weight: 700; letter-spacing: -0.01em; }
+.num-cell { font-family: var(--font-sans); font-size: 14px; line-height: 20px; font-weight: 500; }

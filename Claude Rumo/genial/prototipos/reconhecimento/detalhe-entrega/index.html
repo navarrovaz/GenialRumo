@@ -1,0 +1,111 @@
+<!doctype html>
+<!--
+  Tela: Detalhamento de entrega (id: detalhe-entrega) · Perfil: colaborador (dono da entrega)
+  Fonte: docs/modulos/reconhecimento/especificacao.md (5.3, 6, 7.3, 12) e telas-previstas.md
+  A edição usa o mesmo formulário de cadastro: ../cadastrar-entrega/?estado=editar e ?estado=ajustes.
+
+  Estados (?estado=<nome>), um por status da entrega:
+    avaliada              padrão: pontuação da IA em apuração, com critérios e justificativa
+    rascunho              ainda não enviada
+    aguardando-validacao  com o validador (pessoa do cliente); pode editar e excluir
+    ajustes-solicitados   comentário do gestor e ação de ajustar
+    aguardando-avaliacao  aprovada, sem pontuação ainda
+    recusada             justificativa do gestor; não pontua
+    homologada            resultado oficial do ciclo
+    ajustada-rh           homologada com pontuação revisada pelo RH
+    cancelada             cancelada pelo RH, histórico preservado
+    nao-encontrada        link de entrega que não existe ou foi excluída
+    erro                  falha ao carregar
+
+  O conteúdo de cada estado é montado em tela.js (render), a partir do objeto ENTREGAS: a estrutura de
+  cada bloco está lá, pronta para virar a view Razor.
+
+  Status: Validada pelo dono do produto em 21/10/2026 (inclui os modos editar e ajustes do formulário).
+  Regras usadas (detalhes em questoes-abertas.md):
+    CONFIRMADA  8 status e ações permitidas (esp. 12); comentários do validador visíveis ao colaborador (5.3);
+                pontuação de 1 a 5 com decimal e justificativa da IA (7.3); revisão do RH com justificativa (7.3);
+                responsável, data e comentário de cada decisão (6); "em apuração" até a apuração final (Q-saldos);
+                pontuação por critério visível; prazo exibido é a apuração do ciclo; sem contestação;
+                o link do validador mostra sempre a versão atual da entrega
+  Dados fictícios.
+-->
+<html lang="pt-BR" data-perfil="colaborador">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Detalhe da entrega — Genial</title>
+  <link rel="icon" href="../../../docs/design-system/assets/logos/genial-favicon-48.png">
+  <link rel="stylesheet" href="../../../docs/design-system/tokens.css">
+  <link rel="stylesheet" href="../../../docs/design-system/components/bundle.css">
+  <link rel="stylesheet" href="./tela.css">
+  <script src="../../_comum/sessao.js"></script>
+</head>
+<body>
+<div class="gn gn-shell">
+
+  <aside class="gn-sidebar" aria-label="Menu principal">
+    <div class="gn-sidebar__brand"><img src="../../../docs/design-system/assets/logos/genial-logo.png" alt="Genial"></div>
+    <nav class="gn-sidebar__nav">
+      <div class="gn-nav-section">
+        <span class="gn-nav-section__label">INÍCIO</span>
+        <a class="gn-nav-item" href="#"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span>Página inicial</span></a>
+      </div>
+      <div class="gn-nav-section">
+        <span class="gn-nav-section__label">MEU PONTO</span>
+        <a class="gn-nav-item" href="#"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 10a2 2 0 0 0-2 2c0 1.02-.1 2.51-.26 4"/><path d="M14 13.12c0 2.38 0 6.38-1 8.88"/><path d="M17.29 21.02c.12-.6.43-2.3.5-3.02"/><path d="M2 12a10 10 0 0 1 18-6"/><path d="M2 16h.01"/><path d="M21.8 16c.2-2 .131-5.354 0-6"/><path d="M5 19.5C5.5 18 6 15 6 12a6 6 0 0 1 .34-2"/><path d="M8.65 22c.21-.66.45-1.32.57-2"/><path d="M9 6.8a6 6 0 0 1 9 5.2v2"/></svg><span>Registrar ponto</span></a>
+        <a class="gn-nav-item" href="#"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 7.5V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h3.5"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h5"/><path d="M17.5 17.5 16 16.3V14"/><circle cx="16" cy="16" r="6"/></svg><span>Horas lançadas</span></a>
+      </div>
+      <div class="gn-nav-section">
+        <span class="gn-nav-section__label">RECONHECIMENTO</span>
+        <a class="gn-nav-item" href="../visao-geral/index.html"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg><span>Visão geral</span></a>
+        <a class="gn-nav-item" href="../cadastrar-entrega/index.html"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg><span>Cadastrar entrega</span></a>
+        <a class="gn-nav-item" href="../minhas-entregas/index.html" aria-current="page"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/><path d="M13 6h8"/><path d="M13 12h8"/><path d="M13 18h8"/></svg><span>Minhas entregas</span><span class="gn-badge gn-badge--count" aria-label="2 precisam de você">2</span></a>
+        <a class="gn-nav-item" href="../ranking-mensal/index.html"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"/><circle cx="12" cy="8" r="6"/></svg><span>Ranking mensal</span></a>
+        <a class="gn-nav-item" href="../historico-reconhecimentos/index.html"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg><span>Histórico de reconhecimentos</span></a>
+      </div>
+      <div class="gn-nav-section">
+        <span class="gn-nav-section__label">AJUDA</span>
+        <a class="gn-nav-item" href="#"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg><span>Tutoriais</span></a>
+        <a class="gn-nav-item" href="#"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg><span>Falar com o suporte</span></a>
+      </div>
+    </nav>
+    <div class="gn-sidebar__footer">
+      <div class="gn-user"><span class="gn-avatar gn-avatar--img"><img src="../../../docs/design-system/assets/avatares/avatar-02.svg" alt="" data-meu-avatar></span><div style="min-width:0"><div class="gn-user__name">Ana Ribeiro</div><div class="gn-user__role">Desenvolvedora · Exemplo</div></div></div>
+    </div>
+  </aside>
+
+  <div class="gn-main">
+    <header class="gn-topbar">
+      <nav class="gn-breadcrumb" aria-label="Você está em"><span>Reconhecimento</span><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg><a class="tela-breadcrumb-link" href="../minhas-entregas/index.html">Minhas entregas</a><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg><span aria-current="page">Detalhe da entrega</span></nav>
+      <div class="gn-topbar__actions">
+        <button class="gn-iconbtn" type="button" aria-label="Ajuda"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg></button>
+        <button class="gn-iconbtn" type="button" aria-label="Notificações"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></button>
+        <span class="gn-avatar gn-avatar--img gn-avatar--sm"><img src="../../../docs/design-system/assets/avatares/avatar-02.svg" alt="" data-meu-avatar></span>
+      </div>
+    </header>
+
+    <!-- Conteúdo montado por tela.js (render) -->
+    <main class="gn-page" id="conteudo" aria-live="polite"></main>
+  </div>
+</div>
+
+<!-- ConfirmDialog: excluir entrega -->
+<div class="gn gn-scrim tela-scrim" id="dlg-excluir" hidden>
+  <div class="gn-dialog" role="dialog" aria-modal="true" aria-labelledby="dlg-excluir-t" aria-describedby="dlg-excluir-d">
+    <div class="gn-dialog__header">
+      <span class="gn-dialog__icon tela-dialog__icon--neg"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg></span>
+      <div>
+        <h2 class="gn-dialog__title" id="dlg-excluir-t">Excluir esta entrega?</h2>
+        <p class="gn-dialog__desc" id="dlg-excluir-d">A entrega sai da sua lista e não pode ser recuperada. Se ela já foi enviada, o validador deixa de ver o pedido.</p>
+      </div>
+    </div>
+    <div class="gn-dialog__footer">
+      <button class="gn-btn gn-btn--secondary" type="button" data-fechar>Manter entrega</button>
+      <a class="gn-btn gn-btn--danger" href="../minhas-entregas/index.html?estado=excluida" id="btn-excluir-confirmar">Excluir entrega</a>
+    </div>
+  </div>
+</div>
+
+<script src="./tela.js"></script>
+</body>
+</html>

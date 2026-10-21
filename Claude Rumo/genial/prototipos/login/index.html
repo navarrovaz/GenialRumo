@@ -1,0 +1,79 @@
+<!doctype html>
+<!--
+  Tela: Entrar (id: login) · Perfil: público
+  SIMULAÇÃO de login para navegar pelos protótipos com contas de teste. No Genial, o login é o que o sistema já tem;
+  esta tela não vai para os devs como parte do módulo (esp. 3.2: reaproveitar login e controle de acesso).
+
+  Estados (?estado=<nome>, além dos que vêm do fluxo):
+    padrao           formulário vazio
+    erro             e-mail ou senha incorretos
+    campos-vazios    tentativa de entrar sem preencher
+    entrando         botão carregando
+  Vindos do fluxo: ?saiu=1 (depois de sair da conta) · ?voltar=<tela> (tentou abrir uma tela sem estar logado)
+
+  Contas de teste (pedido do dono do produto, 21/10/2026):
+    Colaboradora: ana.ribeiro@teste.com / 123@ → recursos do colaborador (Visão geral, entregas, ranking, histórico)
+    RH (admin):   rh@teste.com / 123           → administração (Ciclos e pontuações, Gestão de entregas)
+    Gestor:       carlos.andrade@teste.com / 123 → Validação de entregas
+-->
+<html lang="pt-BR" data-perfil="publico">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Entrar — Genial</title>
+  <link rel="icon" href="../../docs/design-system/assets/logos/genial-favicon-48.png">
+  <link rel="stylesheet" href="../../docs/design-system/tokens.css">
+  <link rel="stylesheet" href="../../docs/design-system/components/bundle.css">
+  <link rel="stylesheet" href="./tela.css">
+  <script src="../_comum/sessao.js"></script>
+</head>
+<body>
+<div class="gn tela-login">
+  <main class="tela-login__conteudo">
+    <img class="tela-login__logo" src="../../docs/design-system/assets/logos/genial-logo.png" alt="Genial">
+
+    <section class="gn-card tela-login__card" aria-labelledby="t-entrar">
+      <form class="gn-card__body tela-login__form" id="form-login" novalidate>
+        <div>
+          <h1 class="tela-login__titulo" id="t-entrar">Entrar</h1>
+          <p class="gn-help tela-sem-margem">Use seu e-mail e sua senha do Genial.</p>
+        </div>
+
+        <div id="mensagens" tabindex="-1"></div>
+
+        <div class="gn-field" data-campo="email">
+          <label class="gn-label" for="f-email">E-mail</label>
+          <input class="gn-input" id="f-email" name="email" type="email" inputmode="email" autocomplete="username" placeholder="nome@empresa.com.br">
+        </div>
+
+        <div class="gn-field" data-campo="senha">
+          <label class="gn-label" for="f-senha">Senha</label>
+          <div class="tela-senha">
+            <input class="gn-input" id="f-senha" name="senha" type="password" autocomplete="current-password">
+            <button class="gn-btn gn-btn--ghost gn-btn--sm tela-senha__ver" type="button" id="btn-ver" aria-pressed="false" aria-controls="f-senha">Mostrar</button>
+          </div>
+        </div>
+
+        <button class="gn-btn gn-btn--primary gn-btn--lg gn-btn--block" type="submit" id="btn-entrar"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" x2="3" y1="12" y2="12"/></svg><span>Entrar</span></button>
+      </form>
+    </section>
+
+    <section class="gn-alert gn-alert--info tela-login__teste" aria-labelledby="t-teste">
+      <svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+      <div class="gn-alert__body">
+        <h2 class="gn-alert__title tela-sem-margem" id="t-teste">Ambiente de demonstração</h2>
+        <span class="gn-alert__text">Contas de teste para navegar pelos protótipos:</span>
+        <dl class="tela-contas">
+          <div><dt>Colaboradora · Ana Ribeiro</dt><dd><span class="gn-num">ana.ribeiro@teste.com</span> · senha <span class="gn-num">123@</span></dd></div>
+          <div><dt>RH (administração)</dt><dd><span class="gn-num">rh@teste.com</span> · senha <span class="gn-num">123</span></dd></div>
+          <div><dt>Gestor · Carlos Andrade</dt><dd><span class="gn-num">carlos.andrade@teste.com</span> · senha <span class="gn-num">123</span></dd></div>
+        </dl>
+      </div>
+    </section>
+  </main>
+  <footer class="tela-login__rodape">Genial · Rumo Soluções</footer>
+</div>
+
+<script src="./tela.js"></script>
+</body>
+</html>

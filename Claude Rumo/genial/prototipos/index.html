@@ -1,0 +1,16 @@
+<!doctype html>
+<!-- Entrada dos protótipos: abre a página inicial da conta logada ou o login (sessão simulada em _comum/sessao.js). -->
+<html lang="pt-BR" data-perfil="publico">
+<head>
+  <meta charset="utf-8">
+  <title>Genial</title>
+  <script src="_comum/sessao.js"></script>
+  <script>
+    (function () {
+      var s = window.GenialSessao, conta = s && s.atual();
+      location.replace(conta ? s.inicio(conta) : 'login/index.html');
+    })();
+  </script>
+</head>
+<body><p><a href="login/index.html">Entrar no Genial</a></p></body>
+</html>

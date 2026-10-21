@@ -1,0 +1,311 @@
+<!doctype html>
+<!--
+  Tela: Minhas entregas (id: minhas-entregas) · Perfil: colaborador
+  Fonte: docs/modulos/reconhecimento/especificacao.md (5.3, 8, 12) e telas-previstas.md
+
+  Estados (?estado=<nome>):
+    padrao          ciclo vigente (outubro) com entregas em todos os status
+    ciclo-anterior  setembro, ciclo homologado
+    filtro-vazio    filtro sem resultado
+    vazio           nenhuma entrega no ciclo
+    carregando      linhas-esqueleto
+    erro            falha ao carregar a lista
+    excluida        confirmação depois de excluir uma entrega
+    sem-permissao   usuário sem acesso ao módulo
+
+  Status: Validada pelo dono do produto em 21/10/2026.
+  Regras usadas (detalhes em questoes-abertas.md):
+    CONFIRMADA  8 status (esp. 12); editar e excluir só em Rascunho e Aguardando validação, até o gestor decidir;
+                ajustar quando há ajustes solicitados; pontuação de 1 a 5 com uma casa decimal; saldo mensal com
+                avaliadas "em apuração" e saldo histórico só com ciclos homologados (Q-saldos); indicador de
+                pendentes (esp. 8); desempate pelo número de entregas aprovadas; filtros em 5 grupos de status
+  Trechos que simulam o backend estão marcados com // SIMULAÇÃO em tela.js.
+  Dados fictícios.
+-->
+<html lang="pt-BR" data-perfil="colaborador">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Minhas entregas — Genial</title>
+  <link rel="icon" href="../../../docs/design-system/assets/logos/genial-favicon-48.png">
+  <link rel="stylesheet" href="../../../docs/design-system/tokens.css">
+  <link rel="stylesheet" href="../../../docs/design-system/components/bundle.css">
+  <link rel="stylesheet" href="./tela.css">
+  <script src="../../_comum/sessao.js"></script>
+</head>
+<body>
+<div class="gn gn-shell">
+
+  <aside class="gn-sidebar" aria-label="Menu principal">
+    <div class="gn-sidebar__brand"><img src="../../../docs/design-system/assets/logos/genial-logo.png" alt="Genial"></div>
+    <nav class="gn-sidebar__nav">
+      <div class="gn-nav-section">
+        <span class="gn-nav-section__label">INÍCIO</span>
+        <a class="gn-nav-item" href="#"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span>Página inicial</span></a>
+      </div>
+      <div class="gn-nav-section">
+        <span class="gn-nav-section__label">MEU PONTO</span>
+        <a class="gn-nav-item" href="#"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 10a2 2 0 0 0-2 2c0 1.02-.1 2.51-.26 4"/><path d="M14 13.12c0 2.38 0 6.38-1 8.88"/><path d="M17.29 21.02c.12-.6.43-2.3.5-3.02"/><path d="M2 12a10 10 0 0 1 18-6"/><path d="M2 16h.01"/><path d="M21.8 16c.2-2 .131-5.354 0-6"/><path d="M5 19.5C5.5 18 6 15 6 12a6 6 0 0 1 .34-2"/><path d="M8.65 22c.21-.66.45-1.32.57-2"/><path d="M9 6.8a6 6 0 0 1 9 5.2v2"/></svg><span>Registrar ponto</span></a>
+        <a class="gn-nav-item" href="#"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 7.5V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h3.5"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h5"/><path d="M17.5 17.5 16 16.3V14"/><circle cx="16" cy="16" r="6"/></svg><span>Horas lançadas</span></a>
+      </div>
+      <div class="gn-nav-section">
+        <span class="gn-nav-section__label">RECONHECIMENTO</span>
+        <a class="gn-nav-item" href="../visao-geral/index.html"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg><span>Visão geral</span></a>
+        <a class="gn-nav-item" href="../cadastrar-entrega/index.html"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg><span>Cadastrar entrega</span></a>
+        <a class="gn-nav-item" href="#" aria-current="page"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/><path d="M13 6h8"/><path d="M13 12h8"/><path d="M13 18h8"/></svg><span>Minhas entregas</span><span class="gn-badge gn-badge--count" aria-label="2 precisam de você">2</span></a>
+        <a class="gn-nav-item" href="../ranking-mensal/index.html"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"/><circle cx="12" cy="8" r="6"/></svg><span>Ranking mensal</span></a>
+        <a class="gn-nav-item" href="../historico-reconhecimentos/index.html"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg><span>Histórico de reconhecimentos</span></a>
+      </div>
+      <div class="gn-nav-section">
+        <span class="gn-nav-section__label">AJUDA</span>
+        <a class="gn-nav-item" href="#"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg><span>Tutoriais</span></a>
+        <a class="gn-nav-item" href="#"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg><span>Falar com o suporte</span></a>
+      </div>
+    </nav>
+    <div class="gn-sidebar__footer">
+      <div class="gn-user"><span class="gn-avatar gn-avatar--img"><img src="../../../docs/design-system/assets/avatares/avatar-02.svg" alt="" data-meu-avatar></span><div style="min-width:0"><div class="gn-user__name">Ana Ribeiro</div><div class="gn-user__role">Desenvolvedora · Exemplo</div></div></div>
+    </div>
+  </aside>
+
+  <div class="gn-main">
+    <header class="gn-topbar">
+      <nav class="gn-breadcrumb" aria-label="Você está em"><span>Reconhecimento</span><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg><span aria-current="page">Minhas entregas</span></nav>
+      <div class="gn-topbar__actions">
+        <button class="gn-iconbtn" type="button" aria-label="Ajuda"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg></button>
+        <button class="gn-iconbtn" type="button" aria-label="Notificações"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></button>
+        <span class="gn-avatar gn-avatar--img gn-avatar--sm"><img src="../../../docs/design-system/assets/avatares/avatar-02.svg" alt="" data-meu-avatar></span>
+      </div>
+    </header>
+
+    <main class="gn-page" id="conteudo">
+      <div class="gn-page__head">
+        <div>
+          <h1 class="gn-page__title">Minhas entregas</h1>
+          <p class="gn-page__desc">Acompanhe a validação, a pontuação e os seus saldos em cada ciclo.</p>
+        </div>
+        <a class="gn-btn gn-btn--primary" id="btn-cadastrar" href="../cadastrar-entrega/index.html"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>Cadastrar entrega</a>
+      </div>
+
+      <div id="mensagens" class="gn-stack" tabindex="-1"></div>
+
+      <div id="area-lista" class="gn-stack tela-area">
+        <!-- Indicadores do ciclo selecionado -->
+        <div class="gn-grid-stats">
+          <div class="gn-card gn-stat">
+            <div class="gn-stat__head"><span class="gn-stat__label" id="stat-saldo-rotulo">Saldo de outubro</span><span class="gn-stat__icon"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></span></div>
+            <span class="gn-stat__value" id="stat-saldo">11,9 pts</span>
+            <span class="gn-stat__meta" id="stat-saldo-meta">3 entregas avaliadas · em apuração até 06/11</span>
+          </div>
+          <div class="gn-card gn-stat">
+            <div class="gn-stat__head"><span class="gn-stat__label">Saldo histórico</span><span class="gn-stat__icon"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg></span></div>
+            <span class="gn-stat__value">86,4 pts</span>
+            <span class="gn-stat__meta">Ciclos homologados desde maio de 2026</span>
+          </div>
+          <div class="gn-card gn-stat">
+            <div class="gn-stat__head"><span class="gn-stat__label">Entregas aprovadas</span><span class="gn-stat__icon"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg></span></div>
+            <span class="gn-stat__value" id="stat-aprovadas">4</span>
+            <span class="gn-stat__meta" id="stat-aprovadas-meta">No ciclo · usado no desempate do ranking</span>
+          </div>
+          <div class="gn-card gn-stat">
+            <div class="gn-stat__head"><span class="gn-stat__label">Pendentes</span><span class="gn-stat__icon"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span></div>
+            <span class="gn-stat__value" id="stat-pendentes">2</span>
+            <span class="gn-stat__meta" id="stat-pendentes-meta">1 com o validador · 1 aguardando avaliação</span>
+          </div>
+        </div>
+
+        <!-- Ação pendente do colaborador -->
+        <div class="gn-alert gn-alert--attention" role="status" id="alerta-ajustes">
+          <svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M12 7v2"/><path d="M12 13h.01"/></svg>
+          <div class="gn-alert__body">
+            <span class="gn-alert__title">Carlos Andrade pediu ajustes em uma entrega</span>
+            <span class="gn-alert__text">"Migração do servidor de testes" precisa de mais detalhes sobre o resultado. Ajuste e reenvie até 05/11 para entrar no ciclo de outubro.</span>
+          </div>
+          <div class="gn-alert__actions"><a class="gn-btn gn-btn--secondary gn-btn--sm" href="../cadastrar-entrega/index.html?estado=ajustes">Ajustar entrega</a></div>
+        </div>
+
+        <!-- Filtros -->
+        <div class="tela-filtros">
+          <div class="gn-field tela-filtros__ciclo">
+            <label class="gn-sr" for="f-ciclo">Ciclo</label>
+            <select class="gn-select" id="f-ciclo">
+              <option value="2026-10" selected>Outubro de 2026 (em andamento)</option>
+              <option value="2026-09">Setembro de 2026 (homologado)</option>
+            </select>
+          </div>
+          <div class="gn-row tela-filtros__grupos" role="group" aria-label="Filtrar por situação">
+            <button class="gn-chip" type="button" data-grupo="todas" aria-pressed="true">Todas <span class="gn-num" data-contagem="todas"></span></button>
+            <button class="gn-chip" type="button" data-grupo="voce" aria-pressed="false">Precisam de você <span class="gn-num" data-contagem="voce"></span></button>
+            <button class="gn-chip" type="button" data-grupo="andamento" aria-pressed="false">Em andamento <span class="gn-num" data-contagem="andamento"></span></button>
+            <button class="gn-chip" type="button" data-grupo="avaliadas" aria-pressed="false">Avaliadas <span class="gn-num" data-contagem="avaliadas"></span></button>
+            <button class="gn-chip" type="button" data-grupo="encerradas" aria-pressed="false">Encerradas <span class="gn-num" data-contagem="encerradas"></span></button>
+          </div>
+        </div>
+
+        <!-- Lista -->
+        <div class="gn-table-wrap" id="tabela-wrap">
+          <table class="gn-table" aria-describedby="legenda-tabela">
+            <caption class="gn-sr" id="legenda-tabela">Entregas do ciclo selecionado, da mais recente para a mais antiga</caption>
+            <thead>
+              <tr>
+                <th scope="col">Entrega</th>
+                <th scope="col">Situação</th>
+                <th scope="col" class="is-num">Pontuação <span class="tela-th-nota">(1 a 5)</span></th>
+                <th scope="col"><span class="gn-sr">Ações</span></th>
+              </tr>
+            </thead>
+            <tbody id="linhas">
+              <!-- Outubro de 2026 -->
+              <tr data-ciclo="2026-10" data-grupo="voce">
+                <td class="tela-col-entrega"><a class="tela-entrega__titulo" href="../cadastrar-entrega/index.html?estado=rascunho">Script de limpeza de logs</a><span class="tela-entrega__meta">Salvo em 21/10 · ainda não enviado</span></td>
+                <td><span class="gn-badge gn-badge--neutral"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>Rascunho</span></td>
+                <td class="is-num is-empty"><span aria-hidden="true">—</span><span class="gn-sr">Sem pontuação</span></td>
+                <td class="tela-col-acoes">
+                  <a class="gn-btn gn-btn--secondary gn-btn--sm" href="../cadastrar-entrega/index.html?estado=rascunho">Continuar</a>
+                  <button class="gn-btn gn-btn--ghost gn-btn--icon gn-btn--sm tela-btn-excluir" type="button" data-excluir aria-label="Excluir Script de limpeza de logs"><svg class="gn-icon gn-icon--sm" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg></button>
+                </td>
+              </tr>
+              <tr data-ciclo="2026-10" data-grupo="andamento">
+                <td class="tela-col-entrega"><a class="tela-entrega__titulo" href="../detalhe-entrega/index.html?estado=aguardando-validacao">Treinamento de Git para a equipe do cliente</a><span class="tela-entrega__meta">Enviada em 20/10 · validador: Marcos Teixeira (cliente)</span></td>
+                <td><span class="gn-badge gn-badge--info"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"/><path d="m21.854 2.147-10.94 10.939"/></svg>Aguardando validação</span></td>
+                <td class="is-num is-empty"><span aria-hidden="true">—</span><span class="gn-sr">Sem pontuação</span></td>
+                <td class="tela-col-acoes">
+                  <a class="gn-btn gn-btn--ghost gn-btn--icon gn-btn--sm" href="../cadastrar-entrega/index.html?estado=editar" aria-label="Editar Treinamento de Git para a equipe do cliente"><svg class="gn-icon gn-icon--sm" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg></a>
+                  <button class="gn-btn gn-btn--ghost gn-btn--icon gn-btn--sm tela-btn-excluir" type="button" data-excluir aria-label="Excluir Treinamento de Git para a equipe do cliente"><svg class="gn-icon gn-icon--sm" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg></button>
+                </td>
+              </tr>
+              <tr data-ciclo="2026-10" data-grupo="voce">
+                <td class="tela-col-entrega"><a class="tela-entrega__titulo" href="../detalhe-entrega/index.html?estado=ajustes-solicitados">Migração do servidor de testes</a><span class="tela-entrega__meta">Carlos Andrade pediu ajustes em 19/10</span></td>
+                <td><span class="gn-badge gn-badge--attention"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M12 7v2"/><path d="M12 13h.01"/></svg>Ajustes solicitados</span></td>
+                <td class="is-num is-empty"><span aria-hidden="true">—</span><span class="gn-sr">Sem pontuação</span></td>
+                <td class="tela-col-acoes"><a class="gn-btn gn-btn--secondary gn-btn--sm" href="../cadastrar-entrega/index.html?estado=ajustes" aria-label="Ajustar Migração do servidor de testes">Ajustar</a></td>
+              </tr>
+              <tr data-ciclo="2026-10" data-grupo="andamento">
+                <td class="tela-col-entrega"><a class="tela-entrega__titulo" href="../detalhe-entrega/index.html?estado=aguardando-avaliacao">Monitoramento de filas com alertas</a><span class="tela-entrega__meta">Aprovada por Carlos Andrade em 18/10</span></td>
+                <td><span class="gn-badge gn-badge--info"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Aguardando avaliação</span></td>
+                <td class="is-num is-empty"><span aria-hidden="true">—</span><span class="gn-sr">Sem pontuação</span></td>
+                <td class="tela-col-acoes"></td>
+              </tr>
+              <tr data-ciclo="2026-10" data-grupo="avaliadas">
+                <td class="tela-col-entrega"><a class="tela-entrega__titulo" href="../detalhe-entrega/index.html?estado=avaliada">Documentação do processo de deploy</a><span class="tela-entrega__meta">Avaliada em 17/10 · aprovada por Carlos Andrade</span></td>
+                <td><span class="gn-badge gn-badge--positive"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>Avaliada</span></td>
+                <td class="is-num"><span class="tela-pontuacao">3,2</span></td>
+                <td class="tela-col-acoes"></td>
+              </tr>
+              <tr data-ciclo="2026-10" data-grupo="avaliadas">
+                <td class="tela-col-entrega"><a class="tela-entrega__titulo" href="../detalhe-entrega/index.html?estado=avaliada">Correção do cálculo de comissões em produção</a><span class="tela-entrega__meta">Avaliada em 15/10 · aprovada por Carlos Andrade</span></td>
+                <td><span class="gn-badge gn-badge--positive"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>Avaliada</span></td>
+                <td class="is-num"><span class="tela-pontuacao">4,1</span></td>
+                <td class="tela-col-acoes"></td>
+              </tr>
+              <tr data-ciclo="2026-10" data-grupo="encerradas">
+                <td class="tela-col-entrega"><a class="tela-entrega__titulo" href="../detalhe-entrega/index.html?estado=recusada">Ajuste no layout do portal de pedidos</a><span class="tela-entrega__meta">Recusada por Carlos Andrade em 13/10</span></td>
+                <td><span class="gn-badge gn-badge--negative"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>Recusada</span></td>
+                <td class="is-num is-empty"><span aria-hidden="true">—</span><span class="gn-sr">Sem pontuação</span></td>
+                <td class="tela-col-acoes"></td>
+              </tr>
+              <tr data-ciclo="2026-10" data-grupo="avaliadas">
+                <td class="tela-col-entrega"><a class="tela-entrega__titulo" href="../detalhe-entrega/index.html?estado=avaliada">Automatização do relatório de vendas</a><span class="tela-entrega__meta">Avaliada em 10/10 · aprovada por Carlos Andrade</span></td>
+                <td><span class="gn-badge gn-badge--positive"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>Avaliada</span></td>
+                <td class="is-num"><span class="tela-pontuacao">4,6</span></td>
+                <td class="tela-col-acoes"></td>
+              </tr>
+
+              <!-- Setembro de 2026 (homologado) -->
+              <tr data-ciclo="2026-09" data-grupo="avaliadas" hidden>
+                <td class="tela-col-entrega"><a class="tela-entrega__titulo" href="../detalhe-entrega/index.html?estado=homologada">Painel de indicadores de atendimento</a><span class="tela-entrega__meta">Homologada em 09/10 · aprovada por Carlos Andrade</span></td>
+                <td><span class="gn-badge gn-badge--positive"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>Homologada</span></td>
+                <td class="is-num"><span class="tela-pontuacao">4,9</span></td>
+                <td class="tela-col-acoes"></td>
+              </tr>
+              <tr data-ciclo="2026-09" data-grupo="avaliadas" hidden>
+                <td class="tela-col-entrega"><a class="tela-entrega__titulo" href="../detalhe-entrega/index.html?estado=homologada">Padronização dos testes automatizados da API</a><span class="tela-entrega__meta">Homologada em 09/10 · aprovada por Carlos Andrade</span></td>
+                <td><span class="gn-badge gn-badge--positive"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>Homologada</span></td>
+                <td class="is-num"><span class="tela-pontuacao">4,3</span></td>
+                <td class="tela-col-acoes"></td>
+              </tr>
+              <tr data-ciclo="2026-09" data-grupo="avaliadas" hidden>
+                <td class="tela-col-entrega"><a class="tela-entrega__titulo" href="../detalhe-entrega/index.html?estado=ajustada-rh">Revisão do controle de acesso do sistema interno</a><span class="tela-entrega__meta">Homologada em 09/10 · pontuação ajustada pelo RH</span></td>
+                <td><span class="gn-badge gn-badge--positive"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>Homologada</span></td>
+                <td class="is-num"><span class="tela-pontuacao">3,8</span></td>
+                <td class="tela-col-acoes"></td>
+              </tr>
+              <tr data-ciclo="2026-09" data-grupo="encerradas" hidden>
+                <td class="tela-col-entrega"><a class="tela-entrega__titulo" href="../detalhe-entrega/index.html?estado=cancelada">Painel de atendimento (registro repetido)</a><span class="tela-entrega__meta">Cancelada pelo RH em 08/10 · registro duplicado</span></td>
+                <td><span class="gn-badge gn-badge--neutral"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>Cancelada</span></td>
+                <td class="is-num is-empty"><span aria-hidden="true">—</span><span class="gn-sr">Sem pontuação</span></td>
+                <td class="tela-col-acoes"></td>
+              </tr>
+            </tbody>
+            <tbody id="linhas-carregando" hidden aria-hidden="true">
+              <tr><td><span class="tela-esqueleto tela-esqueleto--lg"></span></td><td><span class="tela-esqueleto"></span></td><td class="is-num"><span class="tela-esqueleto tela-esqueleto--sm"></span></td><td></td></tr>
+              <tr><td><span class="tela-esqueleto tela-esqueleto--lg"></span></td><td><span class="tela-esqueleto"></span></td><td class="is-num"><span class="tela-esqueleto tela-esqueleto--sm"></span></td><td></td></tr>
+              <tr><td><span class="tela-esqueleto tela-esqueleto--lg"></span></td><td><span class="tela-esqueleto"></span></td><td class="is-num"><span class="tela-esqueleto tela-esqueleto--sm"></span></td><td></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="gn-help tela-rodape-lista" id="rodape-lista">Você pode editar ou excluir uma entrega até o validador decidir. As pontuações avaliadas entram no ranking oficial depois da homologação do RH.</p>
+
+        <!-- Filtro sem resultado -->
+        <section class="gn-card" id="area-filtro-vazio" hidden>
+          <div class="gn-empty">
+            <span class="gn-empty__icon"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></span>
+            <h2 class="gn-empty__title" id="filtro-vazio-titulo">Nenhuma entrega neste filtro</h2>
+            <p class="gn-empty__text">Escolha outra situação ou veja todas as entregas do ciclo.</p>
+            <div class="gn-empty__actions"><button class="gn-btn gn-btn--secondary" type="button" id="btn-limpar-filtro">Ver todas</button></div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Ciclo sem entregas -->
+      <section class="gn-card" id="area-vazio" hidden>
+        <div class="gn-empty">
+          <span class="gn-empty__icon"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"/><circle cx="12" cy="8" r="6"/></svg></span>
+          <h2 class="gn-empty__title">Você ainda não cadastrou entregas em outubro</h2>
+          <p class="gn-empty__text">Conte uma realização sua deste mês. O cadastro do ciclo vai até 31/10.</p>
+          <div class="gn-empty__actions"><a class="gn-btn gn-btn--primary" href="../cadastrar-entrega/index.html">Cadastrar entrega</a></div>
+        </div>
+      </section>
+
+      <!-- Erro ao carregar -->
+      <section class="gn-card" id="area-erro" hidden>
+        <div class="gn-empty">
+          <span class="gn-empty__icon gn-empty__icon--lock"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg></span>
+          <h2 class="gn-empty__title">Não foi possível carregar suas entregas</h2>
+          <p class="gn-empty__text">O Genial não respondeu. Suas entregas continuam salvas. Tente de novo em alguns instantes.</p>
+          <div class="gn-empty__actions"><a class="gn-btn gn-btn--secondary" href="?estado=padrao">Tentar de novo</a></div>
+        </div>
+      </section>
+
+      <!-- Sem permissão -->
+      <section class="gn-card" id="area-sem-permissao" hidden>
+        <div class="gn-empty">
+          <span class="gn-empty__icon gn-empty__icon--lock"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
+          <h2 class="gn-empty__title">Você não tem acesso ao Reconhecimento</h2>
+          <p class="gn-empty__text">O módulo é para colaboradores da Rumo. Se você deveria ter acesso, fale com o RH.</p>
+          <div class="gn-empty__actions"><a class="gn-btn gn-btn--secondary" href="#">Falar com o RH</a></div>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<!-- ConfirmDialog: excluir entrega -->
+<div class="gn gn-scrim tela-scrim" id="dlg-excluir" hidden>
+  <div class="gn-dialog" role="dialog" aria-modal="true" aria-labelledby="dlg-excluir-t" aria-describedby="dlg-excluir-d">
+    <div class="gn-dialog__header">
+      <span class="gn-dialog__icon tela-dialog__icon--neg"><svg class="gn-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg></span>
+      <div>
+        <h2 class="gn-dialog__title" id="dlg-excluir-t">Excluir esta entrega?</h2>
+        <p class="gn-dialog__desc" id="dlg-excluir-d"><span id="dlg-excluir-nome">"Entrega"</span> sai da sua lista e não pode ser recuperada. Se ela já foi enviada, o validador deixa de ver o pedido.</p>
+      </div>
+    </div>
+    <div class="gn-dialog__footer">
+      <button class="gn-btn gn-btn--secondary" type="button" data-fechar>Manter entrega</button>
+      <button class="gn-btn gn-btn--danger" type="button" id="btn-excluir-confirmar">Excluir entrega</button>
+    </div>
+  </div>
+</div>
+
+<script src="./tela.js"></script>
+</body>
+</html>

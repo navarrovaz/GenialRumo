@@ -1,0 +1,40 @@
+VERSÃO EM TEXTO PURO (enviada junto com o HTML, multipart/alternative)
+
+=== Variante: gestor da Rumo ===
+Assunto: Bruno Costa pediu sua validação: Redução do tempo de build do aplicativo
+
+Olá, Carlos.
+
+Bruno Costa registrou uma entrega no módulo de Reconhecimento do Genial e indicou você para confirmar.
+
+Redução do tempo de build do aplicativo
+Resultado informado: O build caiu de 42 para 11 minutos. A equipe faz em média 30 builds por dia, o que libera cerca de 15 horas de espera por dia.
+5 dias · Iniciativa própria · Enviada em 19/10
+
+Você confirma a realização e os resultados apresentados?
+Abra a entrega para aprovar, solicitar ajustes ou recusar:
+{{linkValidacao}}
+
+Decida até 05/11. As entregas aprovadas são avaliadas pelos critérios do programa e entram no ranking de outubro.
+
+Você recebeu este e-mail porque Bruno Costa indicou você como validador no Genial, sistema da Rumo Soluções. Não responda: este endereço não recebe mensagens.
+
+
+=== Variante: pessoa do cliente ===
+Assunto: Ana Ribeiro, da Rumo Soluções, pediu que você confirme uma entrega
+
+Olá, Marcos.
+
+Ana Ribeiro é desenvolvedora da Rumo Soluções e trabalhou no seu projeto. A Rumo reconhece as melhores entregas do mês, e Ana indicou você para confirmar o que foi feito. Leva cerca de 2 minutos e não precisa de login.
+
+Treinamento de Git para a equipe do cliente
+Resultado informado: Oito pessoas treinadas. Os conflitos de merge que travavam as entregas caíram de cerca de 6 para 1 por sprint.
+2 semanas · Iniciativa própria · Enviada em 20/10
+
+Você confirma a realização e os resultados apresentados?
+Abra a entrega para aprovar, solicitar ajustes ou recusar:
+{{linkSeguro}}
+
+Responda até 05/11. Este link é pessoal: vale só para você, pode ser usado uma vez e expira em 05/11. Não encaminhe este e-mail.
+
+Você recebeu este e-mail porque Ana Ribeiro, da Rumo Soluções, informou o seu endereço para confirmar uma entrega. Se você não conhece este trabalho, ignore a mensagem: nada é registrado sem a sua resposta.

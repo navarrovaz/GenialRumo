@@ -1,0 +1,40 @@
+<!-- @dsCard group="Formulários" height=500 subtitle="Campo, horário, texto longo com contador, erro, somente leitura" -->
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><link rel="stylesheet" href="../../tokens.css"><link rel="stylesheet" href="../bundle.css"><title>Field</title>
+<style>html,body{margin:0;background:var(--bg-page)} .pv{padding:24px} </style></head>
+<body>
+<div class="gn pv gn-stack" style="max-width:640px">
+  <div class="gn-row" style="align-items:flex-start;gap:16px">
+    <div class="gn-field" style="flex:1 1 220px">
+      <label class="gn-label" for="f-just">Justificativa<span class="gn-req" aria-hidden="true">*</span></label>
+      <input class="gn-input" id="f-just" placeholder="Ex.: consulta médica às 14:00">
+      <span class="gn-help">Aparece para o RH junto com o ajuste.</span>
+    </div>
+    <div class="gn-field">
+      <label class="gn-label" for="f-ent">Entrada</label>
+      <input class="gn-input gn-input--time" id="f-ent" value="08:58" inputmode="numeric">
+    </div>
+    <div class="gn-field gn-field--error">
+      <label class="gn-label" for="f-sai">Saída</label>
+      <input class="gn-input gn-input--time" id="f-sai" value="25:10" aria-invalid="true" aria-describedby="f-sai-err">
+      <span class="gn-help" id="f-sai-err"><svg class="gn-icon gn-icon--sm" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <circle cx="12" cy="12" r="10" /> <line x1="12" x2="12" y1="8" y2="12" /> <line x1="12" x2="12.01" y1="16" y2="16" /> </svg>Use 00:00 a 23:59</span>
+    </div>
+  </div>
+  <div class="gn-field" style="max-width:320px">
+    <label class="gn-label" for="f-busca">Buscar colaborador</label>
+    <div class="gn-input-wrap"><svg class="gn-icon" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <circle cx="11" cy="11" r="8" /> <path d="m21 21-4.3-4.3" /> </svg><input class="gn-input" id="f-busca" placeholder="Nome, matrícula ou PIS"></div>
+  </div>
+  <div class="gn-field">
+    <label class="gn-label" for="f-desc">O que você entregou?<span class="gn-req" aria-hidden="true">*</span></label>
+    <textarea class="gn-input gn-textarea" id="f-desc" rows="4" maxlength="1000" aria-describedby="f-desc-help">Automatizei a geração do relatório de vendas do cliente.</textarea>
+    <div class="gn-help-row"><span class="gn-help" id="f-desc-help">A atividade ou a solução que você desenvolveu.</span><span class="gn-counter" aria-hidden="true">57/1000</span></div>
+  </div>
+  <dl class="gn-row" style="gap:32px;margin:0">
+    <div class="gn-readout"><dt>Mês de referência</dt><dd>Outubro de 2026</dd></div>
+    <div class="gn-readout"><dt>Período</dt><dd class="gn-num">01/10 a 31/10</dd></div>
+    <div class="gn-readout"><dt>Intervalo previsto</dt><dd class="gn-num">1h00</dd></div>
+  </dl>
+</div>
+</body>
+</html>

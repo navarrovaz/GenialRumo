@@ -1,0 +1,65 @@
+/* Detalhe da entrega — layout da tela. Só var(--token). */
+
+html, body { margin: 0; background: var(--bg-page); }
+.gn-shell { min-height: 100vh; }
+[hidden] { display: none !important; }
+
+.tela-breadcrumb-link { color: var(--text-muted); text-decoration: none; }
+.tela-breadcrumb-link:hover { color: var(--link); text-decoration: underline; }
+
+/* Cabeçalho */
+.tela-voltar { margin-bottom: calc(var(--space-4) * -1); }
+.tela-voltar .gn-btn { padding-left: var(--space-2); }
+.tela-titulo { min-width: 0; }
+.tela-titulo__linha { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-3); }
+.tela-acoes { gap: var(--space-2); }
+.tela-btn-excluir { color: var(--negative); }
+.tela-btn-excluir:hover { background: var(--negative-bg); color: var(--negative-text); }
+
+/* Grade */
+.tela-grid { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: var(--space-6); align-items: start; }
+.tela-coluna { gap: var(--space-6); min-width: 0; }
+@media (max-width: 1180px) { .tela-grid { grid-template-columns: minmax(0, 1fr); } }
+
+/* Avaliação da IA */
+.tela-aval { display: grid; grid-template-columns: 140px minmax(0, 1fr); gap: var(--space-6); align-items: start; }
+.tela-nota { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: var(--space-5) var(--space-3); border-radius: var(--radius-lg); background: var(--bg-selected); text-align: center; }
+.tela-nota__valor { font: 700 40px/44px var(--font-sans); letter-spacing: -0.02em; color: var(--brand); font-variant-numeric: tabular-nums; }
+.tela-nota__escala { font: 600 14px/20px var(--font-sans); color: var(--text-selected); }
+.tela-nota__origem { margin-top: var(--space-2); font: 500 12px/16px var(--font-sans); color: var(--text-muted); }
+.tela-aval__detalhe { display: flex; flex-direction: column; gap: var(--space-3); min-width: 0; }
+.tela-subtitulo { margin: 0; font: 600 15px/22px var(--font-sans); color: var(--text-strong); }
+.tela-paragrafo { margin: 0 0 var(--space-2); color: var(--text-default); }
+.tela-ajuste { display: flex; flex-direction: column; gap: var(--space-2); padding: var(--space-3) var(--space-4); border: 1px solid var(--warning-200); border-radius: var(--radius-md); background: var(--attention-bg); }
+.tela-ajuste__linha { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
+.tela-ajuste__texto { margin: 0; }
+.tela-rodape-texto { justify-content: flex-start; }
+.tela-rodape-texto .gn-help { align-items: center; }
+.tela-empty-compacto { padding: var(--space-8) var(--space-6); }
+@media (max-width: 640px) { .tela-aval { grid-template-columns: minmax(0, 1fr); } }
+
+/* Sobre a entrega */
+.tela-conteudo { display: flex; flex-direction: column; gap: var(--space-5); margin: 0; }
+.tela-conteudo dt { margin-bottom: var(--space-1); font: 600 13px/18px var(--font-sans); color: var(--text-muted); }
+.tela-conteudo dd { margin: 0; color: var(--text-strong); white-space: pre-line; }
+.tela-conteudo__par { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-5); }
+
+/* Histórico */
+.tela-hist { padding-top: var(--space-1); }
+.tela-avatar-ia { background: var(--bg-sunken); color: var(--text-muted); }
+.tela-badge-papel { height: 20px; }
+
+/* Validação e ciclo */
+.tela-validador { padding: 0; }
+.tela-min0 { min-width: 0; }
+.tela-readouts { display: flex; flex-wrap: wrap; gap: var(--space-4) var(--space-8); margin: 0; }
+.tela-readouts--col { flex-direction: column; gap: var(--space-4); }
+.tela-peso-normal { font-weight: 400; }
+.tela-comentario { margin: 0; padding: var(--space-3) var(--space-4); border-radius: var(--radius-md); background: var(--bg-sunken); }
+.tela-comentario blockquote { margin: 0; color: var(--text-strong); }
+.tela-comentario figcaption { margin-top: var(--space-2); font: 500 12px/16px var(--font-sans); color: var(--text-muted); }
+.tela-sem-margem { margin: 0; }
+
+/* Diálogo */
+.tela-scrim { position: fixed; inset: 0; z-index: 20; }
+.tela-dialog__icon--neg { background: var(--negative-bg); color: var(--negative); }

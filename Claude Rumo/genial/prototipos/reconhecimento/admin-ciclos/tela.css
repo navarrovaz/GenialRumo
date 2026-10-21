@@ -1,0 +1,61 @@
+/* Ciclos e pontuações — layout da tela. Só var(--token). Pódio, avatares e AuditLog vêm do bundle.css. */
+
+html, body { margin: 0; background: var(--bg-page); }
+.gn-shell { min-height: 100vh; }
+[hidden] { display: none !important; }
+#mensagens:focus { outline: none; }
+#mensagens:empty { display: none; }
+.tela-area { gap: var(--space-6); }
+.tela-sem-margem { margin: 0; }
+.tela-alinha-inicio { align-self: flex-start; }
+.tela-ciclo-select { width: 380px; max-width: 100%; }
+.tela-hoje { height: 28px; }
+
+/* Grade */
+.tela-grid { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: var(--space-6); align-items: start; }
+.tela-coluna { gap: var(--space-6); min-width: 0; }
+@media (max-width: 1180px) { .tela-grid { grid-template-columns: minmax(0, 1fr); } }
+
+.tela-leituras { display: flex; flex-wrap: wrap; gap: var(--space-4) var(--space-8); margin: 0; }
+
+/* Conferência */
+.tela-conf { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.tela-conf__item { display: flex; align-items: flex-start; gap: var(--space-3); padding: var(--space-3) 0; }
+.tela-conf__item + .tela-conf__item { border-top: 1px solid var(--border-subtle); }
+.tela-conf__icone { display: grid; place-items: center; flex: none; width: 28px; height: 28px; border-radius: var(--radius-full); }
+.tela-conf__icone .gn-icon { width: 16px; height: 16px; }
+.tela-conf__icone--ok { background: var(--positive-bg); color: var(--positive); }
+.tela-conf__icone--pendente { background: var(--attention-bg); color: var(--attention); }
+.tela-conf__texto { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.tela-conf__titulo { font-weight: 600; color: var(--text-strong); }
+.tela-conf__desc { color: var(--text-muted); }
+.tela-rodape-acao { justify-content: flex-start; align-items: center; flex-wrap: wrap; gap: var(--space-3); }
+.tela-rodape-acao .gn-help { align-items: center; }
+
+/* Prévia */
+.tela-previa { display: flex; flex-direction: column; gap: var(--space-6); }
+.tela-previa__podio { width: 100%; max-width: 640px; margin: 0 auto; padding-top: var(--space-2); }
+.tela-previa__tabela td { height: 40px; }
+.tela-pos { font-weight: 700; color: var(--text-strong); font-variant-numeric: tabular-nums; }
+.tela-pessoa { display: inline-flex; align-items: center; gap: var(--space-2); }
+
+/* Calendário */
+.tela-etapa dd { display: flex; align-items: center; gap: var(--space-2); }
+.tela-data { max-width: 200px; }
+.tela-btn-perigo { color: var(--negative); }
+.tela-btn-perigo:hover { background: var(--negative-bg); color: var(--negative-text); }
+
+/* Histórico */
+.tela-hist { padding-top: var(--space-1); }
+.tela-avatar-sistema { background: var(--bg-sunken); color: var(--text-muted); }
+.tela-badge-papel { height: 20px; }
+
+/* Diálogo */
+.tela-scrim { position: fixed; inset: 0; z-index: 20; }
+.tela-dialog__icon--neg { background: var(--negative-bg); color: var(--negative); }
+.tela-dialogo { max-width: 520px; }
+
+/* Carregando */
+.tela-esqueleto { display: block; width: 180px; height: 12px; border-radius: var(--radius-full); background: var(--bg-sunken); }
+.tela-esqueleto--lg { width: 280px; height: 22px; }
+.tela-esqueleto--bloco { width: 100%; height: 200px; border-radius: var(--radius-md); }

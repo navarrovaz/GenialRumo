@@ -1,0 +1,14 @@
+<!-- Genial · avatar 04 · cartela de avatares ilustrados (docs/design-system/assets/avatares/README.md) -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Avatar 04">
+  <defs><clipPath id="c"><circle cx="32" cy="32" r="32"/></clipPath></defs>
+  <circle cx="32" cy="32" r="32" fill="#F6C3BD"/>
+  <g clip-path="url(#c)">
+  <circle cx="32" cy="11" r="6" fill="#A8642A"/>
+  <path d="M8 64C8 51 18 45 32 45S56 51 56 64Z" fill="#004D74"/>
+  <rect x="27.5" y="36" width="9" height="11" rx="4" fill="#E8B48E"/>
+  <circle cx="32" cy="28" r="12" fill="#E8B48E"/>
+  <path d="M19.5 27C19.5 18 25 13.5 32 13.5S44.5 18 44.5 27C42 22.5 37.5 20.5 32 20.5S22 22.5 19.5 27Z" fill="#A8642A"/>
+  <circle cx="27.5" cy="28.5" r="1.4" fill="#111C26"/><circle cx="36.5" cy="28.5" r="1.4" fill="#111C26"/>
+  <path d="M28.5 33Q32 35.6 35.5 33" fill="none" stroke="#111C26" stroke-width="1.4" stroke-linecap="round"/>
+  </g>
+</svg>
